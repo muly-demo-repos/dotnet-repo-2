@@ -18,8 +18,9 @@ public class Customer
     [Required()]
     public string Id { get; set; }
 
+    [Required()]
     [StringLength(1000)]
-    public string? LastName { get; set; }
+    public string LastName { get; set; }
 
     public List<Order>? Orders { get; set; } = new List<Order>();
 
