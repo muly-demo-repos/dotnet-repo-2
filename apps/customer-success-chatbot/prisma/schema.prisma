@@ -1,0 +1,63 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  createdAt DateTime @default(now())
+  email     String?  @unique
+  firstName String?
+  id        String   @id @default(cuid())
+  lastName  String?
+  password  String
+  roles     Json
+  updatedAt DateTime @updatedAt
+  username  String   @unique
+}
+
+model Customer {
+  createdAt          DateTime        @default(now())
+  email              String?
+  id                 String          @id @default(cuid())
+  internalCustomerId Int?
+  name               String?
+  phoneNumber        String?
+  supportTickets     SupportTicket[]
+  updatedAt          DateTime        @updatedAt
+}
+
+model SupportAgent {
+  createdAt      DateTime        @default(now())
+  email          String?
+  id             String          @id @default(cuid())
+  name           String?
+  supportTickets SupportTicket[]
+  updatedAt      DateTime        @updatedAt
+}
+
+model ChatbotResponse {
+  createdAt    DateTime  @default(now())
+  id           String    @id @default(cuid())
+  message      String?
+  responseTime DateTime?
+  ticket       String?
+  updatedAt    DateTime  @updatedAt
+}
+
+model SupportTicket {
+  assignedAgent  String?
+  createdAt      DateTime      @default(now())
+  customer       Customer?     @relation(fields: [customerId], references: [id])
+  customerId     String?
+  description    String?
+  id             String        @id @default(cuid())
+  status         String?
+  supportAgent   SupportAgent? @relation(fields: [supportAgentId], references: [id])
+  supportAgentId String?
+  title          String?
+  updatedAt      DateTime      @updatedAt
+}
