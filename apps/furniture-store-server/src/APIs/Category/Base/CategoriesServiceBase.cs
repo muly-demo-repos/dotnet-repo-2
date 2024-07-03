@@ -21,7 +21,7 @@ public abstract class CategoriesServiceBase : ICategoriesService
     /// <summary>
     /// Meta data about Category records
     /// </summary>
-    public async Task<MetadataDto> CategoriesMeta(CategoryFindMany findManyArgs)
+    public async Task<MetadataDto> CategoriesMeta(CategoryFindManyArgs findManyArgs)
     {
         var count = await _context.Categories.ApplyWhere(findManyArgs.Where).CountAsync();
 
@@ -31,11 +31,14 @@ public abstract class CategoriesServiceBase : ICategoriesService
     /// <summary>
     /// Connect multiple Products records to Category
     /// </summary>
-    public async Task ConnectProducts(CategoryIdDto idDto, ProductIdDto[] productsId)
+    public async Task ConnectProducts(
+        CategoryWhereUniqueInput uniqueId,
+        ProductWhereUniqueInput[] productsId
+    )
     {
         var category = await _context
             .Categories.Include(x => x.Products)
-            .FirstOrDefaultAsync(x => x.Id == idDto.Id);
+            .FirstOrDefaultAsync(x => x.Id == uniqueId.Id);
         if (category == null)
         {
             throw new NotFoundException();
@@ -62,11 +65,14 @@ public abstract class CategoriesServiceBase : ICategoriesService
     /// <summary>
     /// Disconnect multiple Products records from Category
     /// </summary>
-    public async Task DisconnectProducts(CategoryIdDto idDto, ProductIdDto[] productsId)
+    public async Task DisconnectProducts(
+        CategoryWhereUniqueInput uniqueId,
+        ProductWhereUniqueInput[] productsId
+    )
     {
         var category = await _context
             .Categories.Include(x => x.Products)
-            .FirstOrDefaultAsync(x => x.Id == idDto.Id);
+            .FirstOrDefaultAsync(x => x.Id == uniqueId.Id);
         if (category == null)
         {
             throw new NotFoundException();
@@ -86,17 +92,17 @@ public abstract class CategoriesServiceBase : ICategoriesService
     /// <summary>
     /// Find multiple Products records for Category
     /// </summary>
-    public async Task<List<ProductDto>> FindProducts(
-        CategoryIdDto idDto,
-        ProductFindMany categoryFindMany
+    public async Task<List<Product>> FindProducts(
+        CategoryWhereUniqueInput uniqueId,
+        ProductFindManyArgs categoryFindManyArgs
     )
     {
         var products = await _context
-            .Products.Where(m => m.CategoryId == idDto.Id)
-            .ApplyWhere(categoryFindMany.Where)
-            .ApplySkip(categoryFindMany.Skip)
-            .ApplyTake(categoryFindMany.Take)
-            .ApplyOrderBy(categoryFindMany.SortBy)
+            .Products.Where(m => m.CategoryId == uniqueId.Id)
+            .ApplyWhere(categoryFindManyArgs.Where)
+            .ApplySkip(categoryFindManyArgs.Skip)
+            .ApplyTake(categoryFindManyArgs.Take)
+            .ApplyOrderBy(categoryFindManyArgs.SortBy)
             .ToListAsync();
 
         return products.Select(x => x.ToDto()).ToList();
@@ -105,11 +111,14 @@ public abstract class CategoriesServiceBase : ICategoriesService
     /// <summary>
     /// Update multiple Products records for Category
     /// </summary>
-    public async Task UpdateProducts(CategoryIdDto idDto, ProductIdDto[] productsId)
+    public async Task UpdateProducts(
+        CategoryWhereUniqueInput uniqueId,
+        ProductWhereUniqueInput[] productsId
+    )
     {
         var category = await _context
             .Categories.Include(t => t.Products)
-            .FirstOrDefaultAsync(x => x.Id == idDto.Id);
+            .FirstOrDefaultAsync(x => x.Id == uniqueId.Id);
         if (category == null)
         {
             throw new NotFoundException();
@@ -131,9 +140,9 @@ public abstract class CategoriesServiceBase : ICategoriesService
     /// <summary>
     /// Create one Category
     /// </summary>
-    public async Task<CategoryDto> CreateCategory(CategoryCreateInput createDto)
+    public async Task<Category> CreateCategory(CategoryCreateInput createDto)
     {
-        var category = new Category
+        var category = new CategoryDbModel
         {
             CreatedAt = createDto.CreatedAt,
             Description = createDto.Description,
@@ -157,7 +166,7 @@ public abstract class CategoriesServiceBase : ICategoriesService
         _context.Categories.Add(category);
         await _context.SaveChangesAsync();
 
-        var result = await _context.FindAsync<Category>(category.Id);
+        var result = await _context.FindAsync<CategoryDbModel>(category.Id);
 
         if (result == null)
         {
@@ -170,9 +179,9 @@ public abstract class CategoriesServiceBase : ICategoriesService
     /// <summary>
     /// Delete one Category
     /// </summary>
-    public async Task DeleteCategory(CategoryIdDto idDto)
+    public async Task DeleteCategory(CategoryWhereUniqueInput uniqueId)
     {
-        var category = await _context.Categories.FindAsync(idDto.Id);
+        var category = await _context.Categories.FindAsync(uniqueId.Id);
         if (category == null)
         {
             throw new NotFoundException();
@@ -185,7 +194,7 @@ public abstract class CategoriesServiceBase : ICategoriesService
     /// <summary>
     /// Find many Categories
     /// </summary>
-    public async Task<List<CategoryDto>> Categories(CategoryFindMany findManyArgs)
+    public async Task<List<Category>> Categories(CategoryFindManyArgs findManyArgs)
     {
         var categories = await _context
             .Categories.Include(x => x.Products)
@@ -200,10 +209,10 @@ public abstract class CategoriesServiceBase : ICategoriesService
     /// <summary>
     /// Get one Category
     /// </summary>
-    public async Task<CategoryDto> Category(CategoryIdDto idDto)
+    public async Task<Category> Category(CategoryWhereUniqueInput uniqueId)
     {
         var categories = await this.Categories(
-            new CategoryFindMany { Where = new CategoryWhereInput { Id = idDto.Id } }
+            new CategoryFindManyArgs { Where = new CategoryWhereInput { Id = uniqueId.Id } }
         );
         var category = categories.FirstOrDefault();
         if (category == null)
@@ -217,16 +226,17 @@ public abstract class CategoriesServiceBase : ICategoriesService
     /// <summary>
     /// Update one Category
     /// </summary>
-    public async Task UpdateCategory(CategoryIdDto idDto, CategoryUpdateInput updateDto)
+    public async Task UpdateCategory(
+        CategoryWhereUniqueInput uniqueId,
+        CategoryUpdateInput updateDto
+    )
     {
-        var category = updateDto.ToModel(idDto);
+        var category = updateDto.ToModel(uniqueId);
 
         if (updateDto.Products != null)
         {
             category.Products = await _context
-                .Products.Where(product =>
-                    updateDto.Products.Select(t => t.Id).Contains(product.Id)
-                )
+                .Products.Where(product => updateDto.Products.Select(t => t).Contains(product.Id))
                 .ToListAsync();
         }
 

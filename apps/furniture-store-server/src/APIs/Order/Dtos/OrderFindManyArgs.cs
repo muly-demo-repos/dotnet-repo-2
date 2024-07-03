@@ -5,4 +5,4 @@ using Microsoft.AspNetCore.Mvc;
 namespace FurnitureStore.APIs.Dtos;
 
 [BindProperties(SupportsGet = true)]
-public class ProductFindMany : FindManyInput<Product, ProductWhereInput> { }
+public class OrderFindManyArgs : FindManyInput<Order, OrderWhereInput> { }

@@ -6,11 +6,11 @@ public class OrderItemCreateInput
 
     public string? Id { get; set; }
 
-    public OrderIdDto? Order { get; set; }
+    public Order? Order { get; set; }
 
     public double? Price { get; set; }
 
-    public ProductIdDto? Product { get; set; }
+    public Product? Product { get; set; }
 
     public int? Quantity { get; set; }
 

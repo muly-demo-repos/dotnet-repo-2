@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace FurnitureStore.Infrastructure.Models;
 
 [Table("Orders")]
-public class Order
+public class OrderDbModel
 {
     [Required()]
     public DateTime CreatedAt { get; set; }
@@ -12,7 +12,7 @@ public class Order
     public string? CustomerId { get; set; }
 
     [ForeignKey(nameof(CustomerId))]
-    public Customer? Customer { get; set; } = null;
+    public CustomerDbModel? Customer { get; set; } = null;
 
     [Key()]
     [Required()]
@@ -20,7 +20,7 @@ public class Order
 
     public DateTime? OrderDate { get; set; }
 
-    public List<OrderItem>? OrderItems { get; set; } = new List<OrderItem>();
+    public List<OrderItemDbModel>? OrderItems { get; set; } = new List<OrderItemDbModel>();
 
     [Required()]
     public DateTime UpdatedAt { get; set; }

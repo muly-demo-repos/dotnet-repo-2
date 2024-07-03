@@ -2,7 +2,7 @@ namespace FurnitureStore.APIs.Dtos;
 
 public class ProductCreateInput
 {
-    public CategoryIdDto? Category { get; set; }
+    public Category? Category { get; set; }
 
     public DateTime CreatedAt { get; set; }
 
@@ -12,7 +12,7 @@ public class ProductCreateInput
 
     public string? Name { get; set; }
 
-    public List<OrderItemIdDto>? OrderItems { get; set; }
+    public List<OrderItem>? OrderItems { get; set; }
 
     public double? Price { get; set; }
 

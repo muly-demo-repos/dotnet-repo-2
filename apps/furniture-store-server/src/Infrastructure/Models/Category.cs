@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace FurnitureStore.Infrastructure.Models;
 
 [Table("Categories")]
-public class Category
+public class CategoryDbModel
 {
     [Required()]
     public DateTime CreatedAt { get; set; }
@@ -19,7 +19,7 @@ public class Category
     [StringLength(1000)]
     public string? Name { get; set; }
 
-    public List<Product>? Products { get; set; } = new List<Product>();
+    public List<ProductDbModel>? Products { get; set; } = new List<ProductDbModel>();
 
     [Required()]
     public DateTime UpdatedAt { get; set; }

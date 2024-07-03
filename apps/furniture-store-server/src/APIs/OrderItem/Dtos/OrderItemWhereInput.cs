@@ -6,11 +6,11 @@ public class OrderItemWhereInput
 
     public string? Id { get; set; }
 
-    public OrderIdDto? Order { get; set; }
+    public string? Order { get; set; }
 
     public double? Price { get; set; }
 
-    public ProductIdDto? Product { get; set; }
+    public string? Product { get; set; }
 
     public int? Quantity { get; set; }
 

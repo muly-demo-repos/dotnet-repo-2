@@ -1,6 +1,6 @@
 namespace FurnitureStore.APIs.Dtos;
 
-public class OrderItemIdDto
+public class OrderWhereUniqueInput
 {
     public string Id { get; set; }
 }

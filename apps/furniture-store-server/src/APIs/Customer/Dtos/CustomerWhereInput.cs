@@ -12,7 +12,7 @@ public class CustomerWhereInput
 
     public string? LastName { get; set; }
 
-    public List<OrderIdDto>? Orders { get; set; }
+    public List<string>? Orders { get; set; }
 
     public DateTime? UpdatedAt { get; set; }
 }

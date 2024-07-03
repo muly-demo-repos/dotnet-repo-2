@@ -1,6 +1,6 @@
 namespace FurnitureStore.APIs.Dtos;
 
-public class CategoryIdDto
+public class CategoryWhereUniqueInput
 {
     public string Id { get; set; }
 }

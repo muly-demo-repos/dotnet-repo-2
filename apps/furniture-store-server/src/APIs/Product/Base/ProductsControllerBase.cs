@@ -23,7 +23,7 @@ public abstract class ProductsControllerBase : ControllerBase
     /// </summary>
     [HttpPost()]
     [Authorize(Roles = "user")]
-    public async Task<ActionResult<ProductDto>> CreateProduct(ProductCreateInput input)
+    public async Task<ActionResult<Product>> CreateProduct(ProductCreateInput input)
     {
         var product = await _service.CreateProduct(input);
 
@@ -35,11 +35,11 @@ public abstract class ProductsControllerBase : ControllerBase
     /// </summary>
     [HttpDelete("{Id}")]
     [Authorize(Roles = "user")]
-    public async Task<ActionResult> DeleteProduct([FromRoute()] ProductIdDto idDto)
+    public async Task<ActionResult> DeleteProduct([FromRoute()] ProductWhereUniqueInput uniqueId)
     {
         try
         {
-            await _service.DeleteProduct(idDto);
+            await _service.DeleteProduct(uniqueId);
         }
         catch (NotFoundException)
         {
@@ -54,7 +54,9 @@ public abstract class ProductsControllerBase : ControllerBase
     /// </summary>
     [HttpGet()]
     [Authorize(Roles = "user")]
-    public async Task<ActionResult<List<ProductDto>>> Products([FromQuery()] ProductFindMany filter)
+    public async Task<ActionResult<List<Product>>> Products(
+        [FromQuery()] ProductFindManyArgs filter
+    )
     {
         return Ok(await _service.Products(filter));
     }
@@ -64,11 +66,11 @@ public abstract class ProductsControllerBase : ControllerBase
     /// </summary>
     [HttpGet("{Id}")]
     [Authorize(Roles = "user")]
-    public async Task<ActionResult<ProductDto>> Product([FromRoute()] ProductIdDto idDto)
+    public async Task<ActionResult<Product>> Product([FromRoute()] ProductWhereUniqueInput uniqueId)
     {
         try
         {
-            return await _service.Product(idDto);
+            return await _service.Product(uniqueId);
         }
         catch (NotFoundException)
         {
@@ -82,13 +84,13 @@ public abstract class ProductsControllerBase : ControllerBase
     [HttpPost("{Id}/orderItems")]
     [Authorize(Roles = "user")]
     public async Task<ActionResult> ConnectOrderItems(
-        [FromRoute()] ProductIdDto idDto,
-        [FromQuery()] OrderItemIdDto[] orderItemsId
+        [FromRoute()] ProductWhereUniqueInput uniqueId,
+        [FromQuery()] OrderItemWhereUniqueInput[] orderItemsId
     )
     {
         try
         {
-            await _service.ConnectOrderItems(idDto, orderItemsId);
+            await _service.ConnectOrderItems(uniqueId, orderItemsId);
         }
         catch (NotFoundException)
         {
@@ -104,13 +106,13 @@ public abstract class ProductsControllerBase : ControllerBase
     [HttpDelete("{Id}/orderItems")]
     [Authorize(Roles = "user")]
     public async Task<ActionResult> DisconnectOrderItems(
-        [FromRoute()] ProductIdDto idDto,
-        [FromBody()] OrderItemIdDto[] orderItemsId
+        [FromRoute()] ProductWhereUniqueInput uniqueId,
+        [FromBody()] OrderItemWhereUniqueInput[] orderItemsId
     )
     {
         try
         {
-            await _service.DisconnectOrderItems(idDto, orderItemsId);
+            await _service.DisconnectOrderItems(uniqueId, orderItemsId);
         }
         catch (NotFoundException)
         {
@@ -125,14 +127,14 @@ public abstract class ProductsControllerBase : ControllerBase
     /// </summary>
     [HttpGet("{Id}/orderItems")]
     [Authorize(Roles = "user")]
-    public async Task<ActionResult<List<OrderItemDto>>> FindOrderItems(
-        [FromRoute()] ProductIdDto idDto,
-        [FromQuery()] OrderItemFindMany filter
+    public async Task<ActionResult<List<OrderItem>>> FindOrderItems(
+        [FromRoute()] ProductWhereUniqueInput uniqueId,
+        [FromQuery()] OrderItemFindManyArgs filter
     )
     {
         try
         {
-            return Ok(await _service.FindOrderItems(idDto, filter));
+            return Ok(await _service.FindOrderItems(uniqueId, filter));
         }
         catch (NotFoundException)
         {
@@ -144,9 +146,11 @@ public abstract class ProductsControllerBase : ControllerBase
     /// Get a Category record for Product
     /// </summary>
     [HttpGet("{Id}/categories")]
-    public async Task<ActionResult<List<CategoryDto>>> GetCategory([FromRoute()] ProductIdDto idDto)
+    public async Task<ActionResult<List<Category>>> GetCategory(
+        [FromRoute()] ProductWhereUniqueInput uniqueId
+    )
     {
-        var category = await _service.GetCategory(idDto);
+        var category = await _service.GetCategory(uniqueId);
         return Ok(category);
     }
 
@@ -154,7 +158,9 @@ public abstract class ProductsControllerBase : ControllerBase
     /// Meta data about Product records
     /// </summary>
     [HttpPost("meta")]
-    public async Task<ActionResult<MetadataDto>> ProductsMeta([FromQuery()] ProductFindMany filter)
+    public async Task<ActionResult<MetadataDto>> ProductsMeta(
+        [FromQuery()] ProductFindManyArgs filter
+    )
     {
         return Ok(await _service.ProductsMeta(filter));
     }
@@ -165,13 +171,13 @@ public abstract class ProductsControllerBase : ControllerBase
     [HttpPatch("{Id}/orderItems")]
     [Authorize(Roles = "user")]
     public async Task<ActionResult> UpdateOrderItems(
-        [FromRoute()] ProductIdDto idDto,
-        [FromBody()] OrderItemIdDto[] orderItemsId
+        [FromRoute()] ProductWhereUniqueInput uniqueId,
+        [FromBody()] OrderItemWhereUniqueInput[] orderItemsId
     )
     {
         try
         {
-            await _service.UpdateOrderItems(idDto, orderItemsId);
+            await _service.UpdateOrderItems(uniqueId, orderItemsId);
         }
         catch (NotFoundException)
         {
@@ -187,13 +193,13 @@ public abstract class ProductsControllerBase : ControllerBase
     [HttpPatch("{Id}")]
     [Authorize(Roles = "user")]
     public async Task<ActionResult> UpdateProduct(
-        [FromRoute()] ProductIdDto idDto,
+        [FromRoute()] ProductWhereUniqueInput uniqueId,
         [FromQuery()] ProductUpdateInput productUpdateDto
     )
     {
         try
         {
-            await _service.UpdateProduct(idDto, productUpdateDto);
+            await _service.UpdateProduct(uniqueId, productUpdateDto);
         }
         catch (NotFoundException)
         {
