@@ -91,6 +91,90 @@
   },
   {
     "role": "admin",
+    "resource": "ChatbotResponse",
+    "action": "read:own",
+    "attributes": "*"
+  },
+  {
+    "role": "maintainer",
+    "resource": "ChatbotResponse",
+    "action": "read:own",
+    "attributes": "*"
+  },
+  {
+    "role": "user",
+    "resource": "ChatbotResponse",
+    "action": "read:own",
+    "attributes": "*"
+  },
+  {
+    "role": "admin",
+    "resource": "ChatbotResponse",
+    "action": "create:any",
+    "attributes": "*"
+  },
+  {
+    "role": "maintainer",
+    "resource": "ChatbotResponse",
+    "action": "create:any",
+    "attributes": "*"
+  },
+  {
+    "role": "user",
+    "resource": "ChatbotResponse",
+    "action": "create:any",
+    "attributes": "*"
+  },
+  {
+    "role": "admin",
+    "resource": "ChatbotResponse",
+    "action": "update:any",
+    "attributes": "*"
+  },
+  {
+    "role": "maintainer",
+    "resource": "ChatbotResponse",
+    "action": "update:any",
+    "attributes": "*"
+  },
+  {
+    "role": "user",
+    "resource": "ChatbotResponse",
+    "action": "update:any",
+    "attributes": "*"
+  },
+  {
+    "role": "maintainer",
+    "resource": "ChatbotResponse",
+    "action": "delete:any",
+    "attributes": "*"
+  },
+  {
+    "role": "admin",
+    "resource": "ChatbotResponse",
+    "action": "delete:any",
+    "attributes": "*"
+  },
+  {
+    "role": "admin",
+    "resource": "ChatbotResponse",
+    "action": "read:any",
+    "attributes": "*"
+  },
+  {
+    "role": "maintainer",
+    "resource": "ChatbotResponse",
+    "action": "read:any",
+    "attributes": "*"
+  },
+  {
+    "role": "user",
+    "resource": "ChatbotResponse",
+    "action": "read:any",
+    "attributes": "*"
+  },
+  {
+    "role": "admin",
     "resource": "Customer",
     "action": "read:own",
     "attributes": "*"
@@ -266,90 +350,6 @@
   {
     "role": "user",
     "resource": "SupportAgent",
-    "action": "read:any",
-    "attributes": "*"
-  },
-  {
-    "role": "admin",
-    "resource": "ChatbotResponse",
-    "action": "read:own",
-    "attributes": "*"
-  },
-  {
-    "role": "maintainer",
-    "resource": "ChatbotResponse",
-    "action": "read:own",
-    "attributes": "*"
-  },
-  {
-    "role": "user",
-    "resource": "ChatbotResponse",
-    "action": "read:own",
-    "attributes": "*"
-  },
-  {
-    "role": "maintainer",
-    "resource": "ChatbotResponse",
-    "action": "create:any",
-    "attributes": "*"
-  },
-  {
-    "role": "admin",
-    "resource": "ChatbotResponse",
-    "action": "create:any",
-    "attributes": "*"
-  },
-  {
-    "role": "admin",
-    "resource": "ChatbotResponse",
-    "action": "update:any",
-    "attributes": "*"
-  },
-  {
-    "role": "maintainer",
-    "resource": "ChatbotResponse",
-    "action": "update:any",
-    "attributes": "*"
-  },
-  {
-    "role": "user",
-    "resource": "ChatbotResponse",
-    "action": "update:any",
-    "attributes": "*"
-  },
-  {
-    "role": "admin",
-    "resource": "ChatbotResponse",
-    "action": "delete:any",
-    "attributes": "*"
-  },
-  {
-    "role": "maintainer",
-    "resource": "ChatbotResponse",
-    "action": "delete:any",
-    "attributes": "*"
-  },
-  {
-    "role": "user",
-    "resource": "ChatbotResponse",
-    "action": "delete:any",
-    "attributes": "*"
-  },
-  {
-    "role": "admin",
-    "resource": "ChatbotResponse",
-    "action": "read:any",
-    "attributes": "*"
-  },
-  {
-    "role": "maintainer",
-    "resource": "ChatbotResponse",
-    "action": "read:any",
-    "attributes": "*"
-  },
-  {
-    "role": "user",
-    "resource": "ChatbotResponse",
     "action": "read:any",
     "attributes": "*"
   },
