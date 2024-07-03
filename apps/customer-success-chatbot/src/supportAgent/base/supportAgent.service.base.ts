@@ -10,7 +10,12 @@ https://docs.amplication.com/how-to/custom-code
 ------------------------------------------------------------------------------
   */
 import { PrismaService } from "../../prisma/prisma.service";
-import { Prisma, SupportAgent as PrismaSupportAgent } from "@prisma/client";
+
+import {
+  Prisma,
+  SupportAgent as PrismaSupportAgent,
+  SupportTicket as PrismaSupportTicket,
+} from "@prisma/client";
 
 export class SupportAgentServiceBase {
   constructor(protected readonly prisma: PrismaService) {}
@@ -45,5 +50,16 @@ export class SupportAgentServiceBase {
     args: Prisma.SupportAgentDeleteArgs
   ): Promise<PrismaSupportAgent> {
     return this.prisma.supportAgent.delete(args);
+  }
+
+  async findSupportTickets(
+    parentId: string,
+    args: Prisma.SupportTicketFindManyArgs
+  ): Promise<PrismaSupportTicket[]> {
+    return this.prisma.supportAgent
+      .findUniqueOrThrow({
+        where: { id: parentId },
+      })
+      .supportTickets(args);
   }
 }

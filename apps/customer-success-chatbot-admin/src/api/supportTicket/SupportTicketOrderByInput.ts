@@ -7,6 +7,7 @@ export type SupportTicketOrderByInput = {
   description?: SortOrder;
   id?: SortOrder;
   status?: SortOrder;
+  supportAgentId?: SortOrder;
   title?: SortOrder;
   updatedAt?: SortOrder;
 };

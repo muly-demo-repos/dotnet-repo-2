@@ -11,9 +11,16 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { ObjectType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, IsOptional, IsDate, ValidateNested } from "class-validator";
+import {
+  IsString,
+  MaxLength,
+  IsOptional,
+  IsDate,
+  ValidateNested,
+} from "class-validator";
 import { Type } from "class-transformer";
 import { Customer } from "../../customer/base/Customer";
+import { SupportAgent } from "../../supportAgent/base/SupportAgent";
 
 @ObjectType()
 class SupportTicket {
@@ -22,6 +29,7 @@ class SupportTicket {
     type: String,
   })
   @IsString()
+  @MaxLength(1000)
   @IsOptional()
   @Field(() => String, {
     nullable: true,
@@ -50,6 +58,7 @@ class SupportTicket {
     type: String,
   })
   @IsString()
+  @MaxLength(1000)
   @IsOptional()
   @Field(() => String, {
     nullable: true,
@@ -69,6 +78,7 @@ class SupportTicket {
     type: String,
   })
   @IsString()
+  @MaxLength(1000)
   @IsOptional()
   @Field(() => String, {
     nullable: true,
@@ -77,9 +87,19 @@ class SupportTicket {
 
   @ApiProperty({
     required: false,
+    type: () => SupportAgent,
+  })
+  @ValidateNested()
+  @Type(() => SupportAgent)
+  @IsOptional()
+  supportAgent?: SupportAgent | null;
+
+  @ApiProperty({
+    required: false,
     type: String,
   })
   @IsString()
+  @MaxLength(1000)
   @IsOptional()
   @Field(() => String, {
     nullable: true,

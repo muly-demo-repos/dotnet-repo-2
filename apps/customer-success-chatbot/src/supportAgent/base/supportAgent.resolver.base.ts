@@ -26,6 +26,8 @@ import { SupportAgentFindUniqueArgs } from "./SupportAgentFindUniqueArgs";
 import { CreateSupportAgentArgs } from "./CreateSupportAgentArgs";
 import { UpdateSupportAgentArgs } from "./UpdateSupportAgentArgs";
 import { DeleteSupportAgentArgs } from "./DeleteSupportAgentArgs";
+import { SupportTicketFindManyArgs } from "../../supportTicket/base/SupportTicketFindManyArgs";
+import { SupportTicket } from "../../supportTicket/base/SupportTicket";
 import { SupportAgentService } from "../supportAgent.service";
 @common.UseGuards(GqlDefaultAuthGuard, gqlACGuard.GqlACGuard)
 @graphql.Resolver(() => SupportAgent)
@@ -140,5 +142,25 @@ export class SupportAgentResolverBase {
       }
       throw error;
     }
+  }
+
+  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @graphql.ResolveField(() => [SupportTicket], { name: "supportTickets" })
+  @nestAccessControl.UseRoles({
+    resource: "SupportTicket",
+    action: "read",
+    possession: "any",
+  })
+  async findSupportTickets(
+    @graphql.Parent() parent: SupportAgent,
+    @graphql.Args() args: SupportTicketFindManyArgs
+  ): Promise<SupportTicket[]> {
+    const results = await this.service.findSupportTickets(parent.id, args);
+
+    if (!results) {
+      return [];
+    }
+
+    return results;
   }
 }

@@ -1,4 +1,5 @@
 import { Customer } from "../customer/Customer";
+import { SupportAgent } from "../supportAgent/SupportAgent";
 
 export type SupportTicket = {
   assignedAgent: string | null;
@@ -7,6 +8,7 @@ export type SupportTicket = {
   description: string | null;
   id: string;
   status: string | null;
+  supportAgent?: SupportAgent | null;
   title: string | null;
   updatedAt: Date;
 };

@@ -10,10 +10,12 @@ https://docs.amplication.com/how-to/custom-code
 ------------------------------------------------------------------------------
   */
 import { PrismaService } from "../../prisma/prisma.service";
+
 import {
   Prisma,
   SupportTicket as PrismaSupportTicket,
   Customer as PrismaCustomer,
+  SupportAgent as PrismaSupportAgent,
 } from "@prisma/client";
 
 export class SupportTicketServiceBase {
@@ -57,5 +59,13 @@ export class SupportTicketServiceBase {
         where: { id: parentId },
       })
       .customer();
+  }
+
+  async getSupportAgent(parentId: string): Promise<PrismaSupportAgent | null> {
+    return this.prisma.supportTicket
+      .findUnique({
+        where: { id: parentId },
+      })
+      .supportAgent();
   }
 }

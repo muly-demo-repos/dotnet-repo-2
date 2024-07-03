@@ -11,7 +11,14 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, IsOptional } from "class-validator";
+import {
+  IsString,
+  IsOptional,
+  MaxLength,
+  ValidateNested,
+} from "class-validator";
+import { SupportTicketUpdateManyWithoutSupportAgentsInput } from "./SupportTicketUpdateManyWithoutSupportAgentsInput";
+import { Type } from "class-transformer";
 
 @InputType()
 class SupportAgentUpdateInput {
@@ -31,11 +38,24 @@ class SupportAgentUpdateInput {
     type: String,
   })
   @IsString()
+  @MaxLength(1000)
   @IsOptional()
   @Field(() => String, {
     nullable: true,
   })
   name?: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: () => SupportTicketUpdateManyWithoutSupportAgentsInput,
+  })
+  @ValidateNested()
+  @Type(() => SupportTicketUpdateManyWithoutSupportAgentsInput)
+  @IsOptional()
+  @Field(() => SupportTicketUpdateManyWithoutSupportAgentsInput, {
+    nullable: true,
+  })
+  supportTickets?: SupportTicketUpdateManyWithoutSupportAgentsInput;
 }
 
 export { SupportAgentUpdateInput as SupportAgentUpdateInput };

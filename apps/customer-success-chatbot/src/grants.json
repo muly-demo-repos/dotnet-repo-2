@@ -1,8 +1,32 @@
 [
   {
+    "role": "admin",
+    "resource": "User",
+    "action": "read:own",
+    "attributes": "*"
+  },
+  {
+    "role": "maintainer",
+    "resource": "User",
+    "action": "read:own",
+    "attributes": "*"
+  },
+  {
     "role": "user",
     "resource": "User",
     "action": "read:own",
+    "attributes": "*"
+  },
+  {
+    "role": "admin",
+    "resource": "User",
+    "action": "create:any",
+    "attributes": "*"
+  },
+  {
+    "role": "maintainer",
+    "resource": "User",
+    "action": "create:any",
     "attributes": "*"
   },
   {
@@ -12,7 +36,13 @@
     "attributes": "*"
   },
   {
-    "role": "user",
+    "role": "admin",
+    "resource": "User",
+    "action": "update:any",
+    "attributes": "*"
+  },
+  {
+    "role": "maintainer",
     "resource": "User",
     "action": "update:any",
     "attributes": "*"
@@ -20,7 +50,37 @@
   {
     "role": "user",
     "resource": "User",
+    "action": "update:any",
+    "attributes": "*"
+  },
+  {
+    "role": "admin",
+    "resource": "User",
     "action": "delete:any",
+    "attributes": "*"
+  },
+  {
+    "role": "maintainer",
+    "resource": "User",
+    "action": "delete:any",
+    "attributes": "*"
+  },
+  {
+    "role": "user",
+    "resource": "User",
+    "action": "delete:any",
+    "attributes": "*"
+  },
+  {
+    "role": "admin",
+    "resource": "User",
+    "action": "read:any",
+    "attributes": "*"
+  },
+  {
+    "role": "maintainer",
+    "resource": "User",
+    "action": "read:any",
     "attributes": "*"
   },
   {
@@ -30,7 +90,193 @@
     "attributes": "*"
   },
   {
+    "role": "admin",
+    "resource": "Customer",
+    "action": "read:own",
+    "attributes": "*"
+  },
+  {
+    "role": "maintainer",
+    "resource": "Customer",
+    "action": "read:own",
+    "attributes": "*"
+  },
+  {
     "role": "user",
+    "resource": "Customer",
+    "action": "read:own",
+    "attributes": "*"
+  },
+  {
+    "role": "admin",
+    "resource": "Customer",
+    "action": "create:any",
+    "attributes": "*"
+  },
+  {
+    "role": "maintainer",
+    "resource": "Customer",
+    "action": "create:any",
+    "attributes": "*"
+  },
+  {
+    "role": "user",
+    "resource": "Customer",
+    "action": "create:any",
+    "attributes": "*"
+  },
+  {
+    "role": "admin",
+    "resource": "Customer",
+    "action": "update:any",
+    "attributes": "*"
+  },
+  {
+    "role": "maintainer",
+    "resource": "Customer",
+    "action": "update:any",
+    "attributes": "*"
+  },
+  {
+    "role": "user",
+    "resource": "Customer",
+    "action": "update:any",
+    "attributes": "*"
+  },
+  {
+    "role": "admin",
+    "resource": "Customer",
+    "action": "delete:any",
+    "attributes": "*"
+  },
+  {
+    "role": "maintainer",
+    "resource": "Customer",
+    "action": "delete:any",
+    "attributes": "*"
+  },
+  {
+    "role": "user",
+    "resource": "Customer",
+    "action": "delete:any",
+    "attributes": "*"
+  },
+  {
+    "role": "admin",
+    "resource": "Customer",
+    "action": "read:any",
+    "attributes": "*"
+  },
+  {
+    "role": "maintainer",
+    "resource": "Customer",
+    "action": "read:any",
+    "attributes": "*"
+  },
+  {
+    "role": "user",
+    "resource": "Customer",
+    "action": "read:any",
+    "attributes": "*"
+  },
+  {
+    "role": "admin",
+    "resource": "SupportAgent",
+    "action": "read:own",
+    "attributes": "*"
+  },
+  {
+    "role": "maintainer",
+    "resource": "SupportAgent",
+    "action": "read:own",
+    "attributes": "*"
+  },
+  {
+    "role": "user",
+    "resource": "SupportAgent",
+    "action": "read:own",
+    "attributes": "*"
+  },
+  {
+    "role": "admin",
+    "resource": "SupportAgent",
+    "action": "create:any",
+    "attributes": "*"
+  },
+  {
+    "role": "maintainer",
+    "resource": "SupportAgent",
+    "action": "create:any",
+    "attributes": "*"
+  },
+  {
+    "role": "user",
+    "resource": "SupportAgent",
+    "action": "create:any",
+    "attributes": "*"
+  },
+  {
+    "role": "admin",
+    "resource": "SupportAgent",
+    "action": "update:any",
+    "attributes": "*"
+  },
+  {
+    "role": "maintainer",
+    "resource": "SupportAgent",
+    "action": "update:any",
+    "attributes": "*"
+  },
+  {
+    "role": "user",
+    "resource": "SupportAgent",
+    "action": "update:any",
+    "attributes": "*"
+  },
+  {
+    "role": "admin",
+    "resource": "SupportAgent",
+    "action": "delete:any",
+    "attributes": "*"
+  },
+  {
+    "role": "maintainer",
+    "resource": "SupportAgent",
+    "action": "delete:any",
+    "attributes": "*"
+  },
+  {
+    "role": "user",
+    "resource": "SupportAgent",
+    "action": "delete:any",
+    "attributes": "*"
+  },
+  {
+    "role": "admin",
+    "resource": "SupportAgent",
+    "action": "read:any",
+    "attributes": "*"
+  },
+  {
+    "role": "maintainer",
+    "resource": "SupportAgent",
+    "action": "read:any",
+    "attributes": "*"
+  },
+  {
+    "role": "user",
+    "resource": "SupportAgent",
+    "action": "read:any",
+    "attributes": "*"
+  },
+  {
+    "role": "admin",
+    "resource": "ChatbotResponse",
+    "action": "read:own",
+    "attributes": "*"
+  },
+  {
+    "role": "maintainer",
     "resource": "ChatbotResponse",
     "action": "read:own",
     "attributes": "*"
@@ -38,7 +284,31 @@
   {
     "role": "user",
     "resource": "ChatbotResponse",
+    "action": "read:own",
+    "attributes": "*"
+  },
+  {
+    "role": "maintainer",
+    "resource": "ChatbotResponse",
     "action": "create:any",
+    "attributes": "*"
+  },
+  {
+    "role": "admin",
+    "resource": "ChatbotResponse",
+    "action": "create:any",
+    "attributes": "*"
+  },
+  {
+    "role": "admin",
+    "resource": "ChatbotResponse",
+    "action": "update:any",
+    "attributes": "*"
+  },
+  {
+    "role": "maintainer",
+    "resource": "ChatbotResponse",
+    "action": "update:any",
     "attributes": "*"
   },
   {
@@ -48,9 +318,33 @@
     "attributes": "*"
   },
   {
+    "role": "admin",
+    "resource": "ChatbotResponse",
+    "action": "delete:any",
+    "attributes": "*"
+  },
+  {
+    "role": "maintainer",
+    "resource": "ChatbotResponse",
+    "action": "delete:any",
+    "attributes": "*"
+  },
+  {
     "role": "user",
     "resource": "ChatbotResponse",
     "action": "delete:any",
+    "attributes": "*"
+  },
+  {
+    "role": "admin",
+    "resource": "ChatbotResponse",
+    "action": "read:any",
+    "attributes": "*"
+  },
+  {
+    "role": "maintainer",
+    "resource": "ChatbotResponse",
+    "action": "read:any",
     "attributes": "*"
   },
   {
@@ -60,9 +354,33 @@
     "attributes": "*"
   },
   {
+    "role": "admin",
+    "resource": "SupportTicket",
+    "action": "read:own",
+    "attributes": "*"
+  },
+  {
+    "role": "maintainer",
+    "resource": "SupportTicket",
+    "action": "read:own",
+    "attributes": "*"
+  },
+  {
     "role": "user",
     "resource": "SupportTicket",
     "action": "read:own",
+    "attributes": "*"
+  },
+  {
+    "role": "admin",
+    "resource": "SupportTicket",
+    "action": "create:any",
+    "attributes": "*"
+  },
+  {
+    "role": "maintainer",
+    "resource": "SupportTicket",
+    "action": "create:any",
     "attributes": "*"
   },
   {
@@ -72,9 +390,33 @@
     "attributes": "*"
   },
   {
+    "role": "admin",
+    "resource": "SupportTicket",
+    "action": "update:any",
+    "attributes": "*"
+  },
+  {
+    "role": "maintainer",
+    "resource": "SupportTicket",
+    "action": "update:any",
+    "attributes": "*"
+  },
+  {
     "role": "user",
     "resource": "SupportTicket",
     "action": "update:any",
+    "attributes": "*"
+  },
+  {
+    "role": "admin",
+    "resource": "SupportTicket",
+    "action": "delete:any",
+    "attributes": "*"
+  },
+  {
+    "role": "maintainer",
+    "resource": "SupportTicket",
+    "action": "delete:any",
     "attributes": "*"
   },
   {
@@ -84,68 +426,20 @@
     "attributes": "*"
   },
   {
-    "role": "user",
+    "role": "admin",
+    "resource": "SupportTicket",
+    "action": "read:any",
+    "attributes": "*"
+  },
+  {
+    "role": "maintainer",
     "resource": "SupportTicket",
     "action": "read:any",
     "attributes": "*"
   },
   {
     "role": "user",
-    "resource": "SupportAgent",
-    "action": "read:own",
-    "attributes": "*"
-  },
-  {
-    "role": "user",
-    "resource": "SupportAgent",
-    "action": "create:any",
-    "attributes": "*"
-  },
-  {
-    "role": "user",
-    "resource": "SupportAgent",
-    "action": "update:any",
-    "attributes": "*"
-  },
-  {
-    "role": "user",
-    "resource": "SupportAgent",
-    "action": "delete:any",
-    "attributes": "*"
-  },
-  {
-    "role": "user",
-    "resource": "SupportAgent",
-    "action": "read:any",
-    "attributes": "*"
-  },
-  {
-    "role": "user",
-    "resource": "Customer",
-    "action": "read:own",
-    "attributes": "*"
-  },
-  {
-    "role": "user",
-    "resource": "Customer",
-    "action": "create:any",
-    "attributes": "*"
-  },
-  {
-    "role": "user",
-    "resource": "Customer",
-    "action": "update:any",
-    "attributes": "*"
-  },
-  {
-    "role": "user",
-    "resource": "Customer",
-    "action": "delete:any",
-    "attributes": "*"
-  },
-  {
-    "role": "user",
-    "resource": "Customer",
+    "resource": "SupportTicket",
     "action": "read:any",
     "attributes": "*"
   }

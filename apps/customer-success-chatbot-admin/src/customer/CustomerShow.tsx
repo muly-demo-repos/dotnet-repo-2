@@ -12,6 +12,7 @@ import {
 } from "react-admin";
 
 import { CUSTOMER_TITLE_FIELD } from "./CustomerTitle";
+import { SUPPORTAGENT_TITLE_FIELD } from "../supportAgent/SupportAgentTitle";
 
 export const CustomerShow = (props: ShowProps): React.ReactElement => {
   return (
@@ -42,6 +43,13 @@ export const CustomerShow = (props: ShowProps): React.ReactElement => {
             <TextField label="description" source="description" />
             <TextField label="ID" source="id" />
             <TextField label="status" source="status" />
+            <ReferenceField
+              label="SupportAgent"
+              source="supportagent.id"
+              reference="SupportAgent"
+            >
+              <TextField source={SUPPORTAGENT_TITLE_FIELD} />
+            </ReferenceField>
             <TextField label="title" source="title" />
             <DateField source="updatedAt" label="Updated At" />
           </Datagrid>

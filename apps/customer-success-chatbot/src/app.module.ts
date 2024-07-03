@@ -1,9 +1,9 @@
 import { Module } from "@nestjs/common";
 import { UserModule } from "./user/user.module";
+import { CustomerModule } from "./customer/customer.module";
+import { SupportAgentModule } from "./supportAgent/supportAgent.module";
 import { ChatbotResponseModule } from "./chatbotResponse/chatbotResponse.module";
 import { SupportTicketModule } from "./supportTicket/supportTicket.module";
-import { SupportAgentModule } from "./supportAgent/supportAgent.module";
-import { CustomerModule } from "./customer/customer.module";
 import { HealthModule } from "./health/health.module";
 import { PrismaModule } from "./prisma/prisma.module";
 import { SecretsManagerModule } from "./providers/secrets/secretsManager.module";
@@ -22,10 +22,10 @@ import { AuthModule } from "./auth/auth.module";
     ACLModule,
     AuthModule,
     UserModule,
+    CustomerModule,
+    SupportAgentModule,
     ChatbotResponseModule,
     SupportTicketModule,
-    SupportAgentModule,
-    CustomerModule,
     HealthModule,
     PrismaModule,
     SecretsManagerModule,

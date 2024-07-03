@@ -233,6 +233,13 @@ export class CustomerControllerBase {
         description: true,
         id: true,
         status: true,
+
+        supportAgent: {
+          select: {
+            id: true,
+          },
+        },
+
         title: true,
         updatedAt: true,
       },

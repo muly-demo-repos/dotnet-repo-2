@@ -16,6 +16,7 @@ import { Type } from "class-transformer";
 import { IsOptional, ValidateNested } from "class-validator";
 import { CustomerWhereUniqueInput } from "../../customer/base/CustomerWhereUniqueInput";
 import { StringFilter } from "../../util/StringFilter";
+import { SupportAgentWhereUniqueInput } from "../../supportAgent/base/SupportAgentWhereUniqueInput";
 
 @InputType()
 class SupportTicketWhereInput {
@@ -74,6 +75,18 @@ class SupportTicketWhereInput {
     nullable: true,
   })
   status?: StringNullableFilter;
+
+  @ApiProperty({
+    required: false,
+    type: () => SupportAgentWhereUniqueInput,
+  })
+  @ValidateNested()
+  @Type(() => SupportAgentWhereUniqueInput)
+  @IsOptional()
+  @Field(() => SupportAgentWhereUniqueInput, {
+    nullable: true,
+  })
+  supportAgent?: SupportAgentWhereUniqueInput;
 
   @ApiProperty({
     required: false,

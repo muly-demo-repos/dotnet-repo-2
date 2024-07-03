@@ -57,6 +57,12 @@ export class SupportTicketControllerBase {
               connect: data.customer,
             }
           : undefined,
+
+        supportAgent: data.supportAgent
+          ? {
+              connect: data.supportAgent,
+            }
+          : undefined,
       },
       select: {
         assignedAgent: true,
@@ -71,6 +77,13 @@ export class SupportTicketControllerBase {
         description: true,
         id: true,
         status: true,
+
+        supportAgent: {
+          select: {
+            id: true,
+          },
+        },
+
         title: true,
         updatedAt: true,
       },
@@ -108,6 +121,13 @@ export class SupportTicketControllerBase {
         description: true,
         id: true,
         status: true,
+
+        supportAgent: {
+          select: {
+            id: true,
+          },
+        },
+
         title: true,
         updatedAt: true,
       },
@@ -144,6 +164,13 @@ export class SupportTicketControllerBase {
         description: true,
         id: true,
         status: true,
+
+        supportAgent: {
+          select: {
+            id: true,
+          },
+        },
+
         title: true,
         updatedAt: true,
       },
@@ -183,6 +210,12 @@ export class SupportTicketControllerBase {
                 connect: data.customer,
               }
             : undefined,
+
+          supportAgent: data.supportAgent
+            ? {
+                connect: data.supportAgent,
+              }
+            : undefined,
         },
         select: {
           assignedAgent: true,
@@ -197,6 +230,13 @@ export class SupportTicketControllerBase {
           description: true,
           id: true,
           status: true,
+
+          supportAgent: {
+            select: {
+              id: true,
+            },
+          },
+
           title: true,
           updatedAt: true,
         },
@@ -241,6 +281,13 @@ export class SupportTicketControllerBase {
           description: true,
           id: true,
           status: true,
+
+          supportAgent: {
+            select: {
+              id: true,
+            },
+          },
+
           title: true,
           updatedAt: true,
         },

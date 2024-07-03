@@ -27,6 +27,7 @@ import { CreateSupportTicketArgs } from "./CreateSupportTicketArgs";
 import { UpdateSupportTicketArgs } from "./UpdateSupportTicketArgs";
 import { DeleteSupportTicketArgs } from "./DeleteSupportTicketArgs";
 import { Customer } from "../../customer/base/Customer";
+import { SupportAgent } from "../../supportAgent/base/SupportAgent";
 import { SupportTicketService } from "../supportTicket.service";
 @common.UseGuards(GqlDefaultAuthGuard, gqlACGuard.GqlACGuard)
 @graphql.Resolver(() => SupportTicket)
@@ -101,6 +102,12 @@ export class SupportTicketResolverBase {
               connect: args.data.customer,
             }
           : undefined,
+
+        supportAgent: args.data.supportAgent
+          ? {
+              connect: args.data.supportAgent,
+            }
+          : undefined,
       },
     });
   }
@@ -124,6 +131,12 @@ export class SupportTicketResolverBase {
           customer: args.data.customer
             ? {
                 connect: args.data.customer,
+              }
+            : undefined,
+
+          supportAgent: args.data.supportAgent
+            ? {
+                connect: args.data.supportAgent,
               }
             : undefined,
         },
@@ -173,6 +186,27 @@ export class SupportTicketResolverBase {
     @graphql.Parent() parent: SupportTicket
   ): Promise<Customer | null> {
     const result = await this.service.getCustomer(parent.id);
+
+    if (!result) {
+      return null;
+    }
+    return result;
+  }
+
+  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @graphql.ResolveField(() => SupportAgent, {
+    nullable: true,
+    name: "supportAgent",
+  })
+  @nestAccessControl.UseRoles({
+    resource: "SupportAgent",
+    action: "read",
+    possession: "any",
+  })
+  async getSupportAgent(
+    @graphql.Parent() parent: SupportTicket
+  ): Promise<SupportAgent | null> {
+    const result = await this.service.getSupportAgent(parent.id);
 
     if (!result) {
       return null;

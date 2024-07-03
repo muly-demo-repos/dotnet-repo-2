@@ -9,6 +9,14 @@ import { UserList } from "./user/UserList";
 import { UserCreate } from "./user/UserCreate";
 import { UserEdit } from "./user/UserEdit";
 import { UserShow } from "./user/UserShow";
+import { CustomerList } from "./customer/CustomerList";
+import { CustomerCreate } from "./customer/CustomerCreate";
+import { CustomerEdit } from "./customer/CustomerEdit";
+import { CustomerShow } from "./customer/CustomerShow";
+import { SupportAgentList } from "./supportAgent/SupportAgentList";
+import { SupportAgentCreate } from "./supportAgent/SupportAgentCreate";
+import { SupportAgentEdit } from "./supportAgent/SupportAgentEdit";
+import { SupportAgentShow } from "./supportAgent/SupportAgentShow";
 import { ChatbotResponseList } from "./chatbotResponse/ChatbotResponseList";
 import { ChatbotResponseCreate } from "./chatbotResponse/ChatbotResponseCreate";
 import { ChatbotResponseEdit } from "./chatbotResponse/ChatbotResponseEdit";
@@ -17,14 +25,6 @@ import { SupportTicketList } from "./supportTicket/SupportTicketList";
 import { SupportTicketCreate } from "./supportTicket/SupportTicketCreate";
 import { SupportTicketEdit } from "./supportTicket/SupportTicketEdit";
 import { SupportTicketShow } from "./supportTicket/SupportTicketShow";
-import { SupportAgentList } from "./supportAgent/SupportAgentList";
-import { SupportAgentCreate } from "./supportAgent/SupportAgentCreate";
-import { SupportAgentEdit } from "./supportAgent/SupportAgentEdit";
-import { SupportAgentShow } from "./supportAgent/SupportAgentShow";
-import { CustomerList } from "./customer/CustomerList";
-import { CustomerCreate } from "./customer/CustomerCreate";
-import { CustomerEdit } from "./customer/CustomerEdit";
-import { CustomerShow } from "./customer/CustomerShow";
 import { httpAuthProvider } from "./auth-provider/ra-auth-http";
 
 const App = (): React.ReactElement => {
@@ -59,6 +59,20 @@ const App = (): React.ReactElement => {
           show={UserShow}
         />
         <Resource
+          name="Customer"
+          list={CustomerList}
+          edit={CustomerEdit}
+          create={CustomerCreate}
+          show={CustomerShow}
+        />
+        <Resource
+          name="SupportAgent"
+          list={SupportAgentList}
+          edit={SupportAgentEdit}
+          create={SupportAgentCreate}
+          show={SupportAgentShow}
+        />
+        <Resource
           name="ChatbotResponse"
           list={ChatbotResponseList}
           edit={ChatbotResponseEdit}
@@ -71,20 +85,6 @@ const App = (): React.ReactElement => {
           edit={SupportTicketEdit}
           create={SupportTicketCreate}
           show={SupportTicketShow}
-        />
-        <Resource
-          name="SupportAgent"
-          list={SupportAgentList}
-          edit={SupportAgentEdit}
-          create={SupportAgentCreate}
-          show={SupportAgentShow}
-        />
-        <Resource
-          name="Customer"
-          list={CustomerList}
-          edit={CustomerEdit}
-          create={CustomerCreate}
-          show={CustomerShow}
         />
       </Admin>
     </div>

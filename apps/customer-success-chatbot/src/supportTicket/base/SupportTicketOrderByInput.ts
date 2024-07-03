@@ -94,6 +94,17 @@ class SupportTicketOrderByInput {
   @Field(() => SortOrder, {
     nullable: true,
   })
+  supportAgentId?: SortOrder;
+
+  @ApiProperty({
+    required: false,
+    enum: ["asc", "desc"],
+  })
+  @IsOptional()
+  @IsEnum(SortOrder)
+  @Field(() => SortOrder, {
+    nullable: true,
+  })
   title?: SortOrder;
 
   @ApiProperty({
