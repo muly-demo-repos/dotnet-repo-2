@@ -5,27 +5,30 @@ namespace FurnitureStore.APIs.Extensions;
 
 public static class ProductsExtensions
 {
-    public static ProductDto ToDto(this Product model)
+    public static Product ToDto(this ProductDbModel model)
     {
-        return new ProductDto
+        return new Product
         {
-            Category = new CategoryIdDto { Id = model.CategoryId },
+            Category = model.CategoryId,
             CreatedAt = model.CreatedAt,
             Description = model.Description,
             Id = model.Id,
             Name = model.Name,
-            OrderItems = model.OrderItems?.Select(x => new OrderItemIdDto { Id = x.Id }).ToList(),
+            OrderItems = model.OrderItems?.Select(x => x.Id).ToList(),
             Price = model.Price,
             Sku = model.Sku,
             UpdatedAt = model.UpdatedAt,
         };
     }
 
-    public static Product ToModel(this ProductUpdateInput updateDto, ProductIdDto idDto)
+    public static ProductDbModel ToModel(
+        this ProductUpdateInput updateDto,
+        ProductWhereUniqueInput uniqueId
+    )
     {
-        var product = new Product
+        var product = new ProductDbModel
         {
-            Id = idDto.Id,
+            Id = uniqueId.Id,
             Description = updateDto.Description,
             Name = updateDto.Name,
             Price = updateDto.Price,

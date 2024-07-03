@@ -23,7 +23,7 @@ public abstract class CategoriesControllerBase : ControllerBase
     /// </summary>
     [HttpPost("meta")]
     public async Task<ActionResult<MetadataDto>> CategoriesMeta(
-        [FromQuery()] CategoryFindMany filter
+        [FromQuery()] CategoryFindManyArgs filter
     )
     {
         return Ok(await _service.CategoriesMeta(filter));
@@ -35,13 +35,13 @@ public abstract class CategoriesControllerBase : ControllerBase
     [HttpPost("{Id}/products")]
     [Authorize(Roles = "user")]
     public async Task<ActionResult> ConnectProducts(
-        [FromRoute()] CategoryIdDto idDto,
-        [FromQuery()] ProductIdDto[] productsId
+        [FromRoute()] CategoryWhereUniqueInput uniqueId,
+        [FromQuery()] ProductWhereUniqueInput[] productsId
     )
     {
         try
         {
-            await _service.ConnectProducts(idDto, productsId);
+            await _service.ConnectProducts(uniqueId, productsId);
         }
         catch (NotFoundException)
         {
@@ -57,13 +57,13 @@ public abstract class CategoriesControllerBase : ControllerBase
     [HttpDelete("{Id}/products")]
     [Authorize(Roles = "user")]
     public async Task<ActionResult> DisconnectProducts(
-        [FromRoute()] CategoryIdDto idDto,
-        [FromBody()] ProductIdDto[] productsId
+        [FromRoute()] CategoryWhereUniqueInput uniqueId,
+        [FromBody()] ProductWhereUniqueInput[] productsId
     )
     {
         try
         {
-            await _service.DisconnectProducts(idDto, productsId);
+            await _service.DisconnectProducts(uniqueId, productsId);
         }
         catch (NotFoundException)
         {
@@ -78,14 +78,14 @@ public abstract class CategoriesControllerBase : ControllerBase
     /// </summary>
     [HttpGet("{Id}/products")]
     [Authorize(Roles = "user")]
-    public async Task<ActionResult<List<ProductDto>>> FindProducts(
-        [FromRoute()] CategoryIdDto idDto,
-        [FromQuery()] ProductFindMany filter
+    public async Task<ActionResult<List<Product>>> FindProducts(
+        [FromRoute()] CategoryWhereUniqueInput uniqueId,
+        [FromQuery()] ProductFindManyArgs filter
     )
     {
         try
         {
-            return Ok(await _service.FindProducts(idDto, filter));
+            return Ok(await _service.FindProducts(uniqueId, filter));
         }
         catch (NotFoundException)
         {
@@ -99,13 +99,13 @@ public abstract class CategoriesControllerBase : ControllerBase
     [HttpPatch("{Id}/products")]
     [Authorize(Roles = "user")]
     public async Task<ActionResult> UpdateProducts(
-        [FromRoute()] CategoryIdDto idDto,
-        [FromBody()] ProductIdDto[] productsId
+        [FromRoute()] CategoryWhereUniqueInput uniqueId,
+        [FromBody()] ProductWhereUniqueInput[] productsId
     )
     {
         try
         {
-            await _service.UpdateProducts(idDto, productsId);
+            await _service.UpdateProducts(uniqueId, productsId);
         }
         catch (NotFoundException)
         {
@@ -120,7 +120,7 @@ public abstract class CategoriesControllerBase : ControllerBase
     /// </summary>
     [HttpPost()]
     [Authorize(Roles = "user")]
-    public async Task<ActionResult<CategoryDto>> CreateCategory(CategoryCreateInput input)
+    public async Task<ActionResult<Category>> CreateCategory(CategoryCreateInput input)
     {
         var category = await _service.CreateCategory(input);
 
@@ -132,11 +132,11 @@ public abstract class CategoriesControllerBase : ControllerBase
     /// </summary>
     [HttpDelete("{Id}")]
     [Authorize(Roles = "user")]
-    public async Task<ActionResult> DeleteCategory([FromRoute()] CategoryIdDto idDto)
+    public async Task<ActionResult> DeleteCategory([FromRoute()] CategoryWhereUniqueInput uniqueId)
     {
         try
         {
-            await _service.DeleteCategory(idDto);
+            await _service.DeleteCategory(uniqueId);
         }
         catch (NotFoundException)
         {
@@ -151,8 +151,8 @@ public abstract class CategoriesControllerBase : ControllerBase
     /// </summary>
     [HttpGet()]
     [Authorize(Roles = "user")]
-    public async Task<ActionResult<List<CategoryDto>>> Categories(
-        [FromQuery()] CategoryFindMany filter
+    public async Task<ActionResult<List<Category>>> Categories(
+        [FromQuery()] CategoryFindManyArgs filter
     )
     {
         return Ok(await _service.Categories(filter));
@@ -162,12 +162,13 @@ public abstract class CategoriesControllerBase : ControllerBase
     /// Get one Category
     /// </summary>
     [HttpGet("{Id}")]
-    [Authorize(Roles = "user")]
-    public async Task<ActionResult<CategoryDto>> Category([FromRoute()] CategoryIdDto idDto)
+    public async Task<ActionResult<Category>> Category(
+        [FromRoute()] CategoryWhereUniqueInput uniqueId
+    )
     {
         try
         {
-            return await _service.Category(idDto);
+            return await _service.Category(uniqueId);
         }
         catch (NotFoundException)
         {
@@ -181,13 +182,13 @@ public abstract class CategoriesControllerBase : ControllerBase
     [HttpPatch("{Id}")]
     [Authorize(Roles = "user")]
     public async Task<ActionResult> UpdateCategory(
-        [FromRoute()] CategoryIdDto idDto,
+        [FromRoute()] CategoryWhereUniqueInput uniqueId,
         [FromQuery()] CategoryUpdateInput categoryUpdateDto
     )
     {
         try
         {
-            await _service.UpdateCategory(idDto, categoryUpdateDto);
+            await _service.UpdateCategory(uniqueId, categoryUpdateDto);
         }
         catch (NotFoundException)
         {

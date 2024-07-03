@@ -8,58 +8,67 @@ public interface IProductsService
     /// <summary>
     /// Create one Product
     /// </summary>
-    public Task<ProductDto> CreateProduct(ProductCreateInput productDto);
+    public Task<Product> CreateProduct(ProductCreateInput product);
 
     /// <summary>
     /// Delete one Product
     /// </summary>
-    public Task DeleteProduct(ProductIdDto idDto);
+    public Task DeleteProduct(ProductWhereUniqueInput uniqueId);
 
     /// <summary>
     /// Find many Products
     /// </summary>
-    public Task<List<ProductDto>> Products(ProductFindMany findManyArgs);
+    public Task<List<Product>> Products(ProductFindManyArgs findManyArgs);
 
     /// <summary>
     /// Get one Product
     /// </summary>
-    public Task<ProductDto> Product(ProductIdDto idDto);
+    public Task<Product> Product(ProductWhereUniqueInput uniqueId);
 
     /// <summary>
     /// Connect multiple OrderItems records to Product
     /// </summary>
-    public Task ConnectOrderItems(ProductIdDto idDto, OrderItemIdDto[] orderItemsId);
+    public Task ConnectOrderItems(
+        ProductWhereUniqueInput uniqueId,
+        OrderItemWhereUniqueInput[] orderItemsId
+    );
 
     /// <summary>
     /// Disconnect multiple OrderItems records from Product
     /// </summary>
-    public Task DisconnectOrderItems(ProductIdDto idDto, OrderItemIdDto[] orderItemsId);
+    public Task DisconnectOrderItems(
+        ProductWhereUniqueInput uniqueId,
+        OrderItemWhereUniqueInput[] orderItemsId
+    );
 
     /// <summary>
     /// Find multiple OrderItems records for Product
     /// </summary>
-    public Task<List<OrderItemDto>> FindOrderItems(
-        ProductIdDto idDto,
-        OrderItemFindMany OrderItemFindMany
+    public Task<List<OrderItem>> FindOrderItems(
+        ProductWhereUniqueInput uniqueId,
+        OrderItemFindManyArgs OrderItemFindManyArgs
     );
 
     /// <summary>
     /// Get a Category record for Product
     /// </summary>
-    public Task<CategoryDto> GetCategory(ProductIdDto idDto);
+    public Task<Category> GetCategory(ProductWhereUniqueInput uniqueId);
 
     /// <summary>
     /// Meta data about Product records
     /// </summary>
-    public Task<MetadataDto> ProductsMeta(ProductFindMany findManyArgs);
+    public Task<MetadataDto> ProductsMeta(ProductFindManyArgs findManyArgs);
 
     /// <summary>
     /// Update multiple OrderItems records for Product
     /// </summary>
-    public Task UpdateOrderItems(ProductIdDto idDto, OrderItemIdDto[] orderItemsId);
+    public Task UpdateOrderItems(
+        ProductWhereUniqueInput uniqueId,
+        OrderItemWhereUniqueInput[] orderItemsId
+    );
 
     /// <summary>
     /// Update one Product
     /// </summary>
-    public Task UpdateProduct(ProductIdDto idDto, ProductUpdateInput updateDto);
+    public Task UpdateProduct(ProductWhereUniqueInput uniqueId, ProductUpdateInput updateDto);
 }

@@ -23,7 +23,7 @@ public abstract class OrdersControllerBase : ControllerBase
     /// </summary>
     [HttpPost()]
     [Authorize(Roles = "user")]
-    public async Task<ActionResult<OrderDto>> CreateOrder(OrderCreateInput input)
+    public async Task<ActionResult<Order>> CreateOrder(OrderCreateInput input)
     {
         var order = await _service.CreateOrder(input);
 
@@ -35,11 +35,11 @@ public abstract class OrdersControllerBase : ControllerBase
     /// </summary>
     [HttpDelete("{Id}")]
     [Authorize(Roles = "user")]
-    public async Task<ActionResult> DeleteOrder([FromRoute()] OrderIdDto idDto)
+    public async Task<ActionResult> DeleteOrder([FromRoute()] OrderWhereUniqueInput uniqueId)
     {
         try
         {
-            await _service.DeleteOrder(idDto);
+            await _service.DeleteOrder(uniqueId);
         }
         catch (NotFoundException)
         {
@@ -54,7 +54,7 @@ public abstract class OrdersControllerBase : ControllerBase
     /// </summary>
     [HttpGet()]
     [Authorize(Roles = "user")]
-    public async Task<ActionResult<List<OrderDto>>> Orders([FromQuery()] OrderFindMany filter)
+    public async Task<ActionResult<List<Order>>> Orders([FromQuery()] OrderFindManyArgs filter)
     {
         return Ok(await _service.Orders(filter));
     }
@@ -64,11 +64,11 @@ public abstract class OrdersControllerBase : ControllerBase
     /// </summary>
     [HttpGet("{Id}")]
     [Authorize(Roles = "user")]
-    public async Task<ActionResult<OrderDto>> Order([FromRoute()] OrderIdDto idDto)
+    public async Task<ActionResult<Order>> Order([FromRoute()] OrderWhereUniqueInput uniqueId)
     {
         try
         {
-            return await _service.Order(idDto);
+            return await _service.Order(uniqueId);
         }
         catch (NotFoundException)
         {
@@ -82,13 +82,13 @@ public abstract class OrdersControllerBase : ControllerBase
     [HttpPost("{Id}/orderItems")]
     [Authorize(Roles = "user")]
     public async Task<ActionResult> ConnectOrderItems(
-        [FromRoute()] OrderIdDto idDto,
-        [FromQuery()] OrderItemIdDto[] orderItemsId
+        [FromRoute()] OrderWhereUniqueInput uniqueId,
+        [FromQuery()] OrderItemWhereUniqueInput[] orderItemsId
     )
     {
         try
         {
-            await _service.ConnectOrderItems(idDto, orderItemsId);
+            await _service.ConnectOrderItems(uniqueId, orderItemsId);
         }
         catch (NotFoundException)
         {
@@ -104,13 +104,13 @@ public abstract class OrdersControllerBase : ControllerBase
     [HttpDelete("{Id}/orderItems")]
     [Authorize(Roles = "user")]
     public async Task<ActionResult> DisconnectOrderItems(
-        [FromRoute()] OrderIdDto idDto,
-        [FromBody()] OrderItemIdDto[] orderItemsId
+        [FromRoute()] OrderWhereUniqueInput uniqueId,
+        [FromBody()] OrderItemWhereUniqueInput[] orderItemsId
     )
     {
         try
         {
-            await _service.DisconnectOrderItems(idDto, orderItemsId);
+            await _service.DisconnectOrderItems(uniqueId, orderItemsId);
         }
         catch (NotFoundException)
         {
@@ -125,14 +125,14 @@ public abstract class OrdersControllerBase : ControllerBase
     /// </summary>
     [HttpGet("{Id}/orderItems")]
     [Authorize(Roles = "user")]
-    public async Task<ActionResult<List<OrderItemDto>>> FindOrderItems(
-        [FromRoute()] OrderIdDto idDto,
-        [FromQuery()] OrderItemFindMany filter
+    public async Task<ActionResult<List<OrderItem>>> FindOrderItems(
+        [FromRoute()] OrderWhereUniqueInput uniqueId,
+        [FromQuery()] OrderItemFindManyArgs filter
     )
     {
         try
         {
-            return Ok(await _service.FindOrderItems(idDto, filter));
+            return Ok(await _service.FindOrderItems(uniqueId, filter));
         }
         catch (NotFoundException)
         {
@@ -144,9 +144,11 @@ public abstract class OrdersControllerBase : ControllerBase
     /// Get a Customer record for Order
     /// </summary>
     [HttpGet("{Id}/customers")]
-    public async Task<ActionResult<List<CustomerDto>>> GetCustomer([FromRoute()] OrderIdDto idDto)
+    public async Task<ActionResult<List<Customer>>> GetCustomer(
+        [FromRoute()] OrderWhereUniqueInput uniqueId
+    )
     {
-        var customer = await _service.GetCustomer(idDto);
+        var customer = await _service.GetCustomer(uniqueId);
         return Ok(customer);
     }
 
@@ -154,7 +156,7 @@ public abstract class OrdersControllerBase : ControllerBase
     /// Meta data about Order records
     /// </summary>
     [HttpPost("meta")]
-    public async Task<ActionResult<MetadataDto>> OrdersMeta([FromQuery()] OrderFindMany filter)
+    public async Task<ActionResult<MetadataDto>> OrdersMeta([FromQuery()] OrderFindManyArgs filter)
     {
         return Ok(await _service.OrdersMeta(filter));
     }
@@ -165,13 +167,13 @@ public abstract class OrdersControllerBase : ControllerBase
     [HttpPatch("{Id}/orderItems")]
     [Authorize(Roles = "user")]
     public async Task<ActionResult> UpdateOrderItems(
-        [FromRoute()] OrderIdDto idDto,
-        [FromBody()] OrderItemIdDto[] orderItemsId
+        [FromRoute()] OrderWhereUniqueInput uniqueId,
+        [FromBody()] OrderItemWhereUniqueInput[] orderItemsId
     )
     {
         try
         {
-            await _service.UpdateOrderItems(idDto, orderItemsId);
+            await _service.UpdateOrderItems(uniqueId, orderItemsId);
         }
         catch (NotFoundException)
         {
@@ -187,13 +189,13 @@ public abstract class OrdersControllerBase : ControllerBase
     [HttpPatch("{Id}")]
     [Authorize(Roles = "user")]
     public async Task<ActionResult> UpdateOrder(
-        [FromRoute()] OrderIdDto idDto,
+        [FromRoute()] OrderWhereUniqueInput uniqueId,
         [FromQuery()] OrderUpdateInput orderUpdateDto
     )
     {
         try
         {
-            await _service.UpdateOrder(idDto, orderUpdateDto);
+            await _service.UpdateOrder(uniqueId, orderUpdateDto);
         }
         catch (NotFoundException)
         {

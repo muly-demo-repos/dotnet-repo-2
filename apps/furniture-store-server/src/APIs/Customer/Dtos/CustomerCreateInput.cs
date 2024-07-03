@@ -10,9 +10,9 @@ public class CustomerCreateInput
 
     public string? Id { get; set; }
 
-    public string? LastName { get; set; }
+    public string LastName { get; set; }
 
-    public List<OrderIdDto>? Orders { get; set; }
+    public List<Order>? Orders { get; set; }
 
     public DateTime UpdatedAt { get; set; }
 }

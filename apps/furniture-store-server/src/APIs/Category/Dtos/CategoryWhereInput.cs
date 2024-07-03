@@ -10,7 +10,7 @@ public class CategoryWhereInput
 
     public string? Name { get; set; }
 
-    public List<ProductIdDto>? Products { get; set; }
+    public List<string>? Products { get; set; }
 
     public DateTime? UpdatedAt { get; set; }
 }

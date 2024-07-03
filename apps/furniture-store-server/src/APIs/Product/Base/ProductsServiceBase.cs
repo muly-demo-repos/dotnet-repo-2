@@ -21,9 +21,9 @@ public abstract class ProductsServiceBase : IProductsService
     /// <summary>
     /// Create one Product
     /// </summary>
-    public async Task<ProductDto> CreateProduct(ProductCreateInput createDto)
+    public async Task<Product> CreateProduct(ProductCreateInput createDto)
     {
-        var product = new Product
+        var product = new ProductDbModel
         {
             CreatedAt = createDto.CreatedAt,
             Description = createDto.Description,
@@ -56,7 +56,7 @@ public abstract class ProductsServiceBase : IProductsService
         _context.Products.Add(product);
         await _context.SaveChangesAsync();
 
-        var result = await _context.FindAsync<Product>(product.Id);
+        var result = await _context.FindAsync<ProductDbModel>(product.Id);
 
         if (result == null)
         {
@@ -69,9 +69,9 @@ public abstract class ProductsServiceBase : IProductsService
     /// <summary>
     /// Delete one Product
     /// </summary>
-    public async Task DeleteProduct(ProductIdDto idDto)
+    public async Task DeleteProduct(ProductWhereUniqueInput uniqueId)
     {
-        var product = await _context.Products.FindAsync(idDto.Id);
+        var product = await _context.Products.FindAsync(uniqueId.Id);
         if (product == null)
         {
             throw new NotFoundException();
@@ -84,7 +84,7 @@ public abstract class ProductsServiceBase : IProductsService
     /// <summary>
     /// Find many Products
     /// </summary>
-    public async Task<List<ProductDto>> Products(ProductFindMany findManyArgs)
+    public async Task<List<Product>> Products(ProductFindManyArgs findManyArgs)
     {
         var products = await _context
             .Products.Include(x => x.Category)
@@ -100,10 +100,10 @@ public abstract class ProductsServiceBase : IProductsService
     /// <summary>
     /// Get one Product
     /// </summary>
-    public async Task<ProductDto> Product(ProductIdDto idDto)
+    public async Task<Product> Product(ProductWhereUniqueInput uniqueId)
     {
         var products = await this.Products(
-            new ProductFindMany { Where = new ProductWhereInput { Id = idDto.Id } }
+            new ProductFindManyArgs { Where = new ProductWhereInput { Id = uniqueId.Id } }
         );
         var product = products.FirstOrDefault();
         if (product == null)
@@ -117,11 +117,14 @@ public abstract class ProductsServiceBase : IProductsService
     /// <summary>
     /// Connect multiple OrderItems records to Product
     /// </summary>
-    public async Task ConnectOrderItems(ProductIdDto idDto, OrderItemIdDto[] orderItemsId)
+    public async Task ConnectOrderItems(
+        ProductWhereUniqueInput uniqueId,
+        OrderItemWhereUniqueInput[] orderItemsId
+    )
     {
         var product = await _context
             .Products.Include(x => x.OrderItems)
-            .FirstOrDefaultAsync(x => x.Id == idDto.Id);
+            .FirstOrDefaultAsync(x => x.Id == uniqueId.Id);
         if (product == null)
         {
             throw new NotFoundException();
@@ -148,11 +151,14 @@ public abstract class ProductsServiceBase : IProductsService
     /// <summary>
     /// Disconnect multiple OrderItems records from Product
     /// </summary>
-    public async Task DisconnectOrderItems(ProductIdDto idDto, OrderItemIdDto[] orderItemsId)
+    public async Task DisconnectOrderItems(
+        ProductWhereUniqueInput uniqueId,
+        OrderItemWhereUniqueInput[] orderItemsId
+    )
     {
         var product = await _context
             .Products.Include(x => x.OrderItems)
-            .FirstOrDefaultAsync(x => x.Id == idDto.Id);
+            .FirstOrDefaultAsync(x => x.Id == uniqueId.Id);
         if (product == null)
         {
             throw new NotFoundException();
@@ -172,17 +178,17 @@ public abstract class ProductsServiceBase : IProductsService
     /// <summary>
     /// Find multiple OrderItems records for Product
     /// </summary>
-    public async Task<List<OrderItemDto>> FindOrderItems(
-        ProductIdDto idDto,
-        OrderItemFindMany productFindMany
+    public async Task<List<OrderItem>> FindOrderItems(
+        ProductWhereUniqueInput uniqueId,
+        OrderItemFindManyArgs productFindManyArgs
     )
     {
         var orderItems = await _context
-            .OrderItems.Where(m => m.ProductId == idDto.Id)
-            .ApplyWhere(productFindMany.Where)
-            .ApplySkip(productFindMany.Skip)
-            .ApplyTake(productFindMany.Take)
-            .ApplyOrderBy(productFindMany.SortBy)
+            .OrderItems.Where(m => m.ProductId == uniqueId.Id)
+            .ApplyWhere(productFindManyArgs.Where)
+            .ApplySkip(productFindManyArgs.Skip)
+            .ApplyTake(productFindManyArgs.Take)
+            .ApplyOrderBy(productFindManyArgs.SortBy)
             .ToListAsync();
 
         return orderItems.Select(x => x.ToDto()).ToList();
@@ -191,10 +197,10 @@ public abstract class ProductsServiceBase : IProductsService
     /// <summary>
     /// Get a Category record for Product
     /// </summary>
-    public async Task<CategoryDto> GetCategory(ProductIdDto idDto)
+    public async Task<Category> GetCategory(ProductWhereUniqueInput uniqueId)
     {
         var product = await _context
-            .Products.Where(product => product.Id == idDto.Id)
+            .Products.Where(product => product.Id == uniqueId.Id)
             .Include(product => product.Category)
             .FirstOrDefaultAsync();
         if (product == null)
@@ -207,7 +213,7 @@ public abstract class ProductsServiceBase : IProductsService
     /// <summary>
     /// Meta data about Product records
     /// </summary>
-    public async Task<MetadataDto> ProductsMeta(ProductFindMany findManyArgs)
+    public async Task<MetadataDto> ProductsMeta(ProductFindManyArgs findManyArgs)
     {
         var count = await _context.Products.ApplyWhere(findManyArgs.Where).CountAsync();
 
@@ -217,11 +223,14 @@ public abstract class ProductsServiceBase : IProductsService
     /// <summary>
     /// Update multiple OrderItems records for Product
     /// </summary>
-    public async Task UpdateOrderItems(ProductIdDto idDto, OrderItemIdDto[] orderItemsId)
+    public async Task UpdateOrderItems(
+        ProductWhereUniqueInput uniqueId,
+        OrderItemWhereUniqueInput[] orderItemsId
+    )
     {
         var product = await _context
             .Products.Include(t => t.OrderItems)
-            .FirstOrDefaultAsync(x => x.Id == idDto.Id);
+            .FirstOrDefaultAsync(x => x.Id == uniqueId.Id);
         if (product == null)
         {
             throw new NotFoundException();
@@ -243,15 +252,15 @@ public abstract class ProductsServiceBase : IProductsService
     /// <summary>
     /// Update one Product
     /// </summary>
-    public async Task UpdateProduct(ProductIdDto idDto, ProductUpdateInput updateDto)
+    public async Task UpdateProduct(ProductWhereUniqueInput uniqueId, ProductUpdateInput updateDto)
     {
-        var product = updateDto.ToModel(idDto);
+        var product = updateDto.ToModel(uniqueId);
 
         if (updateDto.OrderItems != null)
         {
             product.OrderItems = await _context
                 .OrderItems.Where(orderItem =>
-                    updateDto.OrderItems.Select(t => t.Id).Contains(orderItem.Id)
+                    updateDto.OrderItems.Select(t => t).Contains(orderItem.Id)
                 )
                 .ToListAsync();
         }

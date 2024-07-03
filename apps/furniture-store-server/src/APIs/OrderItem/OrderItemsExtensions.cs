@@ -5,25 +5,28 @@ namespace FurnitureStore.APIs.Extensions;
 
 public static class OrderItemsExtensions
 {
-    public static OrderItemDto ToDto(this OrderItem model)
+    public static OrderItem ToDto(this OrderItemDbModel model)
     {
-        return new OrderItemDto
+        return new OrderItem
         {
             CreatedAt = model.CreatedAt,
             Id = model.Id,
-            Order = new OrderIdDto { Id = model.OrderId },
+            Order = model.OrderId,
             Price = model.Price,
-            Product = new ProductIdDto { Id = model.ProductId },
+            Product = model.ProductId,
             Quantity = model.Quantity,
             UpdatedAt = model.UpdatedAt,
         };
     }
 
-    public static OrderItem ToModel(this OrderItemUpdateInput updateDto, OrderItemIdDto idDto)
+    public static OrderItemDbModel ToModel(
+        this OrderItemUpdateInput updateDto,
+        OrderItemWhereUniqueInput uniqueId
+    )
     {
-        var orderItem = new OrderItem
+        var orderItem = new OrderItemDbModel
         {
-            Id = idDto.Id,
+            Id = uniqueId.Id,
             Price = updateDto.Price,
             Quantity = updateDto.Quantity
         };

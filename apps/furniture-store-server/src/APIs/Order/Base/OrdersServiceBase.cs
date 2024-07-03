@@ -21,9 +21,9 @@ public abstract class OrdersServiceBase : IOrdersService
     /// <summary>
     /// Create one Order
     /// </summary>
-    public async Task<OrderDto> CreateOrder(OrderCreateInput createDto)
+    public async Task<Order> CreateOrder(OrderCreateInput createDto)
     {
-        var order = new Order
+        var order = new OrderDbModel
         {
             CreatedAt = createDto.CreatedAt,
             OrderDate = createDto.OrderDate,
@@ -53,7 +53,7 @@ public abstract class OrdersServiceBase : IOrdersService
         _context.Orders.Add(order);
         await _context.SaveChangesAsync();
 
-        var result = await _context.FindAsync<Order>(order.Id);
+        var result = await _context.FindAsync<OrderDbModel>(order.Id);
 
         if (result == null)
         {
@@ -66,9 +66,9 @@ public abstract class OrdersServiceBase : IOrdersService
     /// <summary>
     /// Delete one Order
     /// </summary>
-    public async Task DeleteOrder(OrderIdDto idDto)
+    public async Task DeleteOrder(OrderWhereUniqueInput uniqueId)
     {
-        var order = await _context.Orders.FindAsync(idDto.Id);
+        var order = await _context.Orders.FindAsync(uniqueId.Id);
         if (order == null)
         {
             throw new NotFoundException();
@@ -81,7 +81,7 @@ public abstract class OrdersServiceBase : IOrdersService
     /// <summary>
     /// Find many Orders
     /// </summary>
-    public async Task<List<OrderDto>> Orders(OrderFindMany findManyArgs)
+    public async Task<List<Order>> Orders(OrderFindManyArgs findManyArgs)
     {
         var orders = await _context
             .Orders.Include(x => x.Customer)
@@ -97,10 +97,10 @@ public abstract class OrdersServiceBase : IOrdersService
     /// <summary>
     /// Get one Order
     /// </summary>
-    public async Task<OrderDto> Order(OrderIdDto idDto)
+    public async Task<Order> Order(OrderWhereUniqueInput uniqueId)
     {
         var orders = await this.Orders(
-            new OrderFindMany { Where = new OrderWhereInput { Id = idDto.Id } }
+            new OrderFindManyArgs { Where = new OrderWhereInput { Id = uniqueId.Id } }
         );
         var order = orders.FirstOrDefault();
         if (order == null)
@@ -114,11 +114,14 @@ public abstract class OrdersServiceBase : IOrdersService
     /// <summary>
     /// Connect multiple OrderItems records to Order
     /// </summary>
-    public async Task ConnectOrderItems(OrderIdDto idDto, OrderItemIdDto[] orderItemsId)
+    public async Task ConnectOrderItems(
+        OrderWhereUniqueInput uniqueId,
+        OrderItemWhereUniqueInput[] orderItemsId
+    )
     {
         var order = await _context
             .Orders.Include(x => x.OrderItems)
-            .FirstOrDefaultAsync(x => x.Id == idDto.Id);
+            .FirstOrDefaultAsync(x => x.Id == uniqueId.Id);
         if (order == null)
         {
             throw new NotFoundException();
@@ -145,11 +148,14 @@ public abstract class OrdersServiceBase : IOrdersService
     /// <summary>
     /// Disconnect multiple OrderItems records from Order
     /// </summary>
-    public async Task DisconnectOrderItems(OrderIdDto idDto, OrderItemIdDto[] orderItemsId)
+    public async Task DisconnectOrderItems(
+        OrderWhereUniqueInput uniqueId,
+        OrderItemWhereUniqueInput[] orderItemsId
+    )
     {
         var order = await _context
             .Orders.Include(x => x.OrderItems)
-            .FirstOrDefaultAsync(x => x.Id == idDto.Id);
+            .FirstOrDefaultAsync(x => x.Id == uniqueId.Id);
         if (order == null)
         {
             throw new NotFoundException();
@@ -169,17 +175,17 @@ public abstract class OrdersServiceBase : IOrdersService
     /// <summary>
     /// Find multiple OrderItems records for Order
     /// </summary>
-    public async Task<List<OrderItemDto>> FindOrderItems(
-        OrderIdDto idDto,
-        OrderItemFindMany orderFindMany
+    public async Task<List<OrderItem>> FindOrderItems(
+        OrderWhereUniqueInput uniqueId,
+        OrderItemFindManyArgs orderFindManyArgs
     )
     {
         var orderItems = await _context
-            .OrderItems.Where(m => m.OrderId == idDto.Id)
-            .ApplyWhere(orderFindMany.Where)
-            .ApplySkip(orderFindMany.Skip)
-            .ApplyTake(orderFindMany.Take)
-            .ApplyOrderBy(orderFindMany.SortBy)
+            .OrderItems.Where(m => m.OrderId == uniqueId.Id)
+            .ApplyWhere(orderFindManyArgs.Where)
+            .ApplySkip(orderFindManyArgs.Skip)
+            .ApplyTake(orderFindManyArgs.Take)
+            .ApplyOrderBy(orderFindManyArgs.SortBy)
             .ToListAsync();
 
         return orderItems.Select(x => x.ToDto()).ToList();
@@ -188,10 +194,10 @@ public abstract class OrdersServiceBase : IOrdersService
     /// <summary>
     /// Get a Customer record for Order
     /// </summary>
-    public async Task<CustomerDto> GetCustomer(OrderIdDto idDto)
+    public async Task<Customer> GetCustomer(OrderWhereUniqueInput uniqueId)
     {
         var order = await _context
-            .Orders.Where(order => order.Id == idDto.Id)
+            .Orders.Where(order => order.Id == uniqueId.Id)
             .Include(order => order.Customer)
             .FirstOrDefaultAsync();
         if (order == null)
@@ -204,7 +210,7 @@ public abstract class OrdersServiceBase : IOrdersService
     /// <summary>
     /// Meta data about Order records
     /// </summary>
-    public async Task<MetadataDto> OrdersMeta(OrderFindMany findManyArgs)
+    public async Task<MetadataDto> OrdersMeta(OrderFindManyArgs findManyArgs)
     {
         var count = await _context.Orders.ApplyWhere(findManyArgs.Where).CountAsync();
 
@@ -214,11 +220,14 @@ public abstract class OrdersServiceBase : IOrdersService
     /// <summary>
     /// Update multiple OrderItems records for Order
     /// </summary>
-    public async Task UpdateOrderItems(OrderIdDto idDto, OrderItemIdDto[] orderItemsId)
+    public async Task UpdateOrderItems(
+        OrderWhereUniqueInput uniqueId,
+        OrderItemWhereUniqueInput[] orderItemsId
+    )
     {
         var order = await _context
             .Orders.Include(t => t.OrderItems)
-            .FirstOrDefaultAsync(x => x.Id == idDto.Id);
+            .FirstOrDefaultAsync(x => x.Id == uniqueId.Id);
         if (order == null)
         {
             throw new NotFoundException();
@@ -240,15 +249,15 @@ public abstract class OrdersServiceBase : IOrdersService
     /// <summary>
     /// Update one Order
     /// </summary>
-    public async Task UpdateOrder(OrderIdDto idDto, OrderUpdateInput updateDto)
+    public async Task UpdateOrder(OrderWhereUniqueInput uniqueId, OrderUpdateInput updateDto)
     {
-        var order = updateDto.ToModel(idDto);
+        var order = updateDto.ToModel(uniqueId);
 
         if (updateDto.OrderItems != null)
         {
             order.OrderItems = await _context
                 .OrderItems.Where(orderItem =>
-                    updateDto.OrderItems.Select(t => t.Id).Contains(orderItem.Id)
+                    updateDto.OrderItems.Select(t => t).Contains(orderItem.Id)
                 )
                 .ToListAsync();
         }
