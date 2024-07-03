@@ -33,7 +33,7 @@ public abstract class CategoriesControllerBase : ControllerBase
     /// Connect multiple Products records to Category
     /// </summary>
     [HttpPost("{Id}/products")]
-    [Authorize(Roles = "user")]
+    [Authorize(Roles = "admin,superUser,user")]
     public async Task<ActionResult> ConnectProducts(
         [FromRoute()] CategoryWhereUniqueInput uniqueId,
         [FromQuery()] ProductWhereUniqueInput[] productsId
@@ -55,7 +55,7 @@ public abstract class CategoriesControllerBase : ControllerBase
     /// Disconnect multiple Products records from Category
     /// </summary>
     [HttpDelete("{Id}/products")]
-    [Authorize(Roles = "user")]
+    [Authorize(Roles = "admin,superUser,user")]
     public async Task<ActionResult> DisconnectProducts(
         [FromRoute()] CategoryWhereUniqueInput uniqueId,
         [FromBody()] ProductWhereUniqueInput[] productsId
@@ -77,7 +77,7 @@ public abstract class CategoriesControllerBase : ControllerBase
     /// Find multiple Products records for Category
     /// </summary>
     [HttpGet("{Id}/products")]
-    [Authorize(Roles = "user")]
+    [Authorize(Roles = "admin,superUser,user")]
     public async Task<ActionResult<List<Product>>> FindProducts(
         [FromRoute()] CategoryWhereUniqueInput uniqueId,
         [FromQuery()] ProductFindManyArgs filter
@@ -97,7 +97,7 @@ public abstract class CategoriesControllerBase : ControllerBase
     /// Update multiple Products records for Category
     /// </summary>
     [HttpPatch("{Id}/products")]
-    [Authorize(Roles = "user")]
+    [Authorize(Roles = "admin,superUser,user")]
     public async Task<ActionResult> UpdateProducts(
         [FromRoute()] CategoryWhereUniqueInput uniqueId,
         [FromBody()] ProductWhereUniqueInput[] productsId
@@ -119,7 +119,7 @@ public abstract class CategoriesControllerBase : ControllerBase
     /// Create one Category
     /// </summary>
     [HttpPost()]
-    [Authorize(Roles = "user")]
+    [Authorize(Roles = "admin,superUser,user")]
     public async Task<ActionResult<Category>> CreateCategory(CategoryCreateInput input)
     {
         var category = await _service.CreateCategory(input);
@@ -131,7 +131,7 @@ public abstract class CategoriesControllerBase : ControllerBase
     /// Delete one Category
     /// </summary>
     [HttpDelete("{Id}")]
-    [Authorize(Roles = "user")]
+    [Authorize(Roles = "admin,superUser,user")]
     public async Task<ActionResult> DeleteCategory([FromRoute()] CategoryWhereUniqueInput uniqueId)
     {
         try
@@ -150,7 +150,7 @@ public abstract class CategoriesControllerBase : ControllerBase
     /// Find many Categories
     /// </summary>
     [HttpGet()]
-    [Authorize(Roles = "user")]
+    [Authorize(Roles = "admin,superUser,user")]
     public async Task<ActionResult<List<Category>>> Categories(
         [FromQuery()] CategoryFindManyArgs filter
     )
@@ -180,7 +180,7 @@ public abstract class CategoriesControllerBase : ControllerBase
     /// Update one Category
     /// </summary>
     [HttpPatch("{Id}")]
-    [Authorize(Roles = "user")]
+    [Authorize(Roles = "admin,superUser,user")]
     public async Task<ActionResult> UpdateCategory(
         [FromRoute()] CategoryWhereUniqueInput uniqueId,
         [FromQuery()] CategoryUpdateInput categoryUpdateDto

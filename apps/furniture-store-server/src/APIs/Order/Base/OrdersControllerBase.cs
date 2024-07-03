@@ -22,7 +22,7 @@ public abstract class OrdersControllerBase : ControllerBase
     /// Create one Order
     /// </summary>
     [HttpPost()]
-    [Authorize(Roles = "user")]
+    [Authorize(Roles = "admin,superUser,user")]
     public async Task<ActionResult<Order>> CreateOrder(OrderCreateInput input)
     {
         var order = await _service.CreateOrder(input);
@@ -34,7 +34,7 @@ public abstract class OrdersControllerBase : ControllerBase
     /// Delete one Order
     /// </summary>
     [HttpDelete("{Id}")]
-    [Authorize(Roles = "user")]
+    [Authorize(Roles = "admin,superUser,user")]
     public async Task<ActionResult> DeleteOrder([FromRoute()] OrderWhereUniqueInput uniqueId)
     {
         try
@@ -53,7 +53,7 @@ public abstract class OrdersControllerBase : ControllerBase
     /// Find many Orders
     /// </summary>
     [HttpGet()]
-    [Authorize(Roles = "user")]
+    [Authorize(Roles = "admin,superUser,user")]
     public async Task<ActionResult<List<Order>>> Orders([FromQuery()] OrderFindManyArgs filter)
     {
         return Ok(await _service.Orders(filter));
@@ -63,7 +63,7 @@ public abstract class OrdersControllerBase : ControllerBase
     /// Get one Order
     /// </summary>
     [HttpGet("{Id}")]
-    [Authorize(Roles = "user")]
+    [Authorize(Roles = "admin,superUser,user")]
     public async Task<ActionResult<Order>> Order([FromRoute()] OrderWhereUniqueInput uniqueId)
     {
         try
@@ -80,7 +80,7 @@ public abstract class OrdersControllerBase : ControllerBase
     /// Connect multiple OrderItems records to Order
     /// </summary>
     [HttpPost("{Id}/orderItems")]
-    [Authorize(Roles = "user")]
+    [Authorize(Roles = "admin,superUser,user")]
     public async Task<ActionResult> ConnectOrderItems(
         [FromRoute()] OrderWhereUniqueInput uniqueId,
         [FromQuery()] OrderItemWhereUniqueInput[] orderItemsId
@@ -102,7 +102,7 @@ public abstract class OrdersControllerBase : ControllerBase
     /// Disconnect multiple OrderItems records from Order
     /// </summary>
     [HttpDelete("{Id}/orderItems")]
-    [Authorize(Roles = "user")]
+    [Authorize(Roles = "admin,superUser,user")]
     public async Task<ActionResult> DisconnectOrderItems(
         [FromRoute()] OrderWhereUniqueInput uniqueId,
         [FromBody()] OrderItemWhereUniqueInput[] orderItemsId
@@ -124,7 +124,7 @@ public abstract class OrdersControllerBase : ControllerBase
     /// Find multiple OrderItems records for Order
     /// </summary>
     [HttpGet("{Id}/orderItems")]
-    [Authorize(Roles = "user")]
+    [Authorize(Roles = "admin,superUser,user")]
     public async Task<ActionResult<List<OrderItem>>> FindOrderItems(
         [FromRoute()] OrderWhereUniqueInput uniqueId,
         [FromQuery()] OrderItemFindManyArgs filter
@@ -165,7 +165,7 @@ public abstract class OrdersControllerBase : ControllerBase
     /// Update multiple OrderItems records for Order
     /// </summary>
     [HttpPatch("{Id}/orderItems")]
-    [Authorize(Roles = "user")]
+    [Authorize(Roles = "admin,superUser,user")]
     public async Task<ActionResult> UpdateOrderItems(
         [FromRoute()] OrderWhereUniqueInput uniqueId,
         [FromBody()] OrderItemWhereUniqueInput[] orderItemsId
@@ -187,7 +187,7 @@ public abstract class OrdersControllerBase : ControllerBase
     /// Update one Order
     /// </summary>
     [HttpPatch("{Id}")]
-    [Authorize(Roles = "user")]
+    [Authorize(Roles = "admin,superUser,user")]
     public async Task<ActionResult> UpdateOrder(
         [FromRoute()] OrderWhereUniqueInput uniqueId,
         [FromQuery()] OrderUpdateInput orderUpdateDto
