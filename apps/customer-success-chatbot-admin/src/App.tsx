@@ -9,6 +9,10 @@ import { UserList } from "./user/UserList";
 import { UserCreate } from "./user/UserCreate";
 import { UserEdit } from "./user/UserEdit";
 import { UserShow } from "./user/UserShow";
+import { ChatbotResponseList } from "./chatbotResponse/ChatbotResponseList";
+import { ChatbotResponseCreate } from "./chatbotResponse/ChatbotResponseCreate";
+import { ChatbotResponseEdit } from "./chatbotResponse/ChatbotResponseEdit";
+import { ChatbotResponseShow } from "./chatbotResponse/ChatbotResponseShow";
 import { CustomerList } from "./customer/CustomerList";
 import { CustomerCreate } from "./customer/CustomerCreate";
 import { CustomerEdit } from "./customer/CustomerEdit";
@@ -17,10 +21,6 @@ import { SupportAgentList } from "./supportAgent/SupportAgentList";
 import { SupportAgentCreate } from "./supportAgent/SupportAgentCreate";
 import { SupportAgentEdit } from "./supportAgent/SupportAgentEdit";
 import { SupportAgentShow } from "./supportAgent/SupportAgentShow";
-import { ChatbotResponseList } from "./chatbotResponse/ChatbotResponseList";
-import { ChatbotResponseCreate } from "./chatbotResponse/ChatbotResponseCreate";
-import { ChatbotResponseEdit } from "./chatbotResponse/ChatbotResponseEdit";
-import { ChatbotResponseShow } from "./chatbotResponse/ChatbotResponseShow";
 import { SupportTicketList } from "./supportTicket/SupportTicketList";
 import { SupportTicketCreate } from "./supportTicket/SupportTicketCreate";
 import { SupportTicketEdit } from "./supportTicket/SupportTicketEdit";
@@ -59,6 +59,13 @@ const App = (): React.ReactElement => {
           show={UserShow}
         />
         <Resource
+          name="ChatbotResponse"
+          list={ChatbotResponseList}
+          edit={ChatbotResponseEdit}
+          create={ChatbotResponseCreate}
+          show={ChatbotResponseShow}
+        />
+        <Resource
           name="Customer"
           list={CustomerList}
           edit={CustomerEdit}
@@ -71,13 +78,6 @@ const App = (): React.ReactElement => {
           edit={SupportAgentEdit}
           create={SupportAgentCreate}
           show={SupportAgentShow}
-        />
-        <Resource
-          name="ChatbotResponse"
-          list={ChatbotResponseList}
-          edit={ChatbotResponseEdit}
-          create={ChatbotResponseCreate}
-          show={ChatbotResponseShow}
         />
         <Resource
           name="SupportTicket"

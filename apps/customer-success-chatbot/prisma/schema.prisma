@@ -19,6 +19,15 @@ model User {
   username  String   @unique
 }
 
+model ChatbotResponse {
+  createdAt    DateTime  @default(now())
+  id           String    @id @default(cuid())
+  message      String?
+  responseTime DateTime?
+  ticket       String?
+  updatedAt    DateTime  @updatedAt
+}
+
 model Customer {
   createdAt          DateTime        @default(now())
   email              String?
@@ -37,15 +46,6 @@ model SupportAgent {
   name           String?
   supportTickets SupportTicket[]
   updatedAt      DateTime        @updatedAt
-}
-
-model ChatbotResponse {
-  createdAt    DateTime  @default(now())
-  id           String    @id @default(cuid())
-  message      String?
-  responseTime DateTime?
-  ticket       String?
-  updatedAt    DateTime  @updatedAt
 }
 
 model SupportTicket {
