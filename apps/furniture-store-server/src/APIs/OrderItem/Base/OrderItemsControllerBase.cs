@@ -22,7 +22,7 @@ public abstract class OrderItemsControllerBase : ControllerBase
     /// Create one OrderItem
     /// </summary>
     [HttpPost()]
-    [Authorize(Roles = "user")]
+    [Authorize(Roles = "admin,superUser,user")]
     public async Task<ActionResult<OrderItem>> CreateOrderItem(OrderItemCreateInput input)
     {
         var orderItem = await _service.CreateOrderItem(input);
@@ -34,7 +34,7 @@ public abstract class OrderItemsControllerBase : ControllerBase
     /// Delete one OrderItem
     /// </summary>
     [HttpDelete("{Id}")]
-    [Authorize(Roles = "user")]
+    [Authorize(Roles = "admin,superUser,user")]
     public async Task<ActionResult> DeleteOrderItem(
         [FromRoute()] OrderItemWhereUniqueInput uniqueId
     )
@@ -55,7 +55,7 @@ public abstract class OrderItemsControllerBase : ControllerBase
     /// Find many OrderItems
     /// </summary>
     [HttpGet()]
-    [Authorize(Roles = "user")]
+    [Authorize(Roles = "admin,superUser,user")]
     public async Task<ActionResult<List<OrderItem>>> OrderItems(
         [FromQuery()] OrderItemFindManyArgs filter
     )
@@ -67,7 +67,7 @@ public abstract class OrderItemsControllerBase : ControllerBase
     /// Get one OrderItem
     /// </summary>
     [HttpGet("{Id}")]
-    [Authorize(Roles = "user")]
+    [Authorize(Roles = "admin,superUser,user")]
     public async Task<ActionResult<OrderItem>> OrderItem(
         [FromRoute()] OrderItemWhereUniqueInput uniqueId
     )
@@ -121,7 +121,7 @@ public abstract class OrderItemsControllerBase : ControllerBase
     /// Update one OrderItem
     /// </summary>
     [HttpPatch("{Id}")]
-    [Authorize(Roles = "user")]
+    [Authorize(Roles = "admin,superUser,user")]
     public async Task<ActionResult> UpdateOrderItem(
         [FromRoute()] OrderItemWhereUniqueInput uniqueId,
         [FromQuery()] OrderItemUpdateInput orderItemUpdateDto

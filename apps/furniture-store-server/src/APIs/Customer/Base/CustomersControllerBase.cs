@@ -22,7 +22,7 @@ public abstract class CustomersControllerBase : ControllerBase
     /// Create one Customer
     /// </summary>
     [HttpPost()]
-    [Authorize(Roles = "user")]
+    [Authorize(Roles = "admin,superUser,user")]
     public async Task<ActionResult<Customer>> CreateCustomer(CustomerCreateInput input)
     {
         var customer = await _service.CreateCustomer(input);
@@ -34,7 +34,7 @@ public abstract class CustomersControllerBase : ControllerBase
     /// Connect multiple Orders records to Customer
     /// </summary>
     [HttpPost("{Id}/orders")]
-    [Authorize(Roles = "user")]
+    [Authorize(Roles = "admin,superUser,user")]
     public async Task<ActionResult> ConnectOrders(
         [FromRoute()] CustomerWhereUniqueInput uniqueId,
         [FromQuery()] OrderWhereUniqueInput[] ordersId
@@ -56,7 +56,7 @@ public abstract class CustomersControllerBase : ControllerBase
     /// Disconnect multiple Orders records from Customer
     /// </summary>
     [HttpDelete("{Id}/orders")]
-    [Authorize(Roles = "user")]
+    [Authorize(Roles = "admin,superUser,user")]
     public async Task<ActionResult> DisconnectOrders(
         [FromRoute()] CustomerWhereUniqueInput uniqueId,
         [FromBody()] OrderWhereUniqueInput[] ordersId
@@ -78,7 +78,7 @@ public abstract class CustomersControllerBase : ControllerBase
     /// Find multiple Orders records for Customer
     /// </summary>
     [HttpGet("{Id}/orders")]
-    [Authorize(Roles = "user")]
+    [Authorize(Roles = "admin,superUser,user")]
     public async Task<ActionResult<List<Order>>> FindOrders(
         [FromRoute()] CustomerWhereUniqueInput uniqueId,
         [FromQuery()] OrderFindManyArgs filter
@@ -109,7 +109,7 @@ public abstract class CustomersControllerBase : ControllerBase
     /// Update multiple Orders records for Customer
     /// </summary>
     [HttpPatch("{Id}/orders")]
-    [Authorize(Roles = "user")]
+    [Authorize(Roles = "admin,superUser,user")]
     public async Task<ActionResult> UpdateOrders(
         [FromRoute()] CustomerWhereUniqueInput uniqueId,
         [FromBody()] OrderWhereUniqueInput[] ordersId
@@ -131,7 +131,7 @@ public abstract class CustomersControllerBase : ControllerBase
     /// Delete one Customer
     /// </summary>
     [HttpDelete("{Id}")]
-    [Authorize(Roles = "user")]
+    [Authorize(Roles = "superUser,admin")]
     public async Task<ActionResult> DeleteCustomer([FromRoute()] CustomerWhereUniqueInput uniqueId)
     {
         try
@@ -150,7 +150,7 @@ public abstract class CustomersControllerBase : ControllerBase
     /// Find many Customers
     /// </summary>
     [HttpGet()]
-    [Authorize(Roles = "user")]
+    [Authorize(Roles = "admin,superUser,user")]
     public async Task<ActionResult<List<Customer>>> Customers(
         [FromQuery()] CustomerFindManyArgs filter
     )
@@ -162,7 +162,6 @@ public abstract class CustomersControllerBase : ControllerBase
     /// Get one Customer
     /// </summary>
     [HttpGet("{Id}")]
-    [Authorize(Roles = "user")]
     public async Task<ActionResult<Customer>> Customer(
         [FromRoute()] CustomerWhereUniqueInput uniqueId
     )
@@ -178,7 +177,7 @@ public abstract class CustomersControllerBase : ControllerBase
     }
 
     [HttpGet("{Id}/get-customer-additional-data")]
-    [Authorize(Roles = "user")]
+    [Authorize(Roles = "admin,superUser,user")]
     public async Task<CustomerAdditionalData> GetCustomerAdditionalData(
         [FromQuery()] CustomerWhereUniqueInput customerWhereUniqueInputDto
     )
@@ -190,7 +189,7 @@ public abstract class CustomersControllerBase : ControllerBase
     /// Update one Customer
     /// </summary>
     [HttpPatch("{Id}")]
-    [Authorize(Roles = "user")]
+    [Authorize(Roles = "admin,superUser,user")]
     public async Task<ActionResult> UpdateCustomer(
         [FromRoute()] CustomerWhereUniqueInput uniqueId,
         [FromQuery()] CustomerUpdateInput customerUpdateDto
